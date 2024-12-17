@@ -1,11 +1,5 @@
-import 'package:flutterflow_ui/flutterflow_ui.dart';
-
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
-
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
@@ -16,8 +10,6 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget>
     with TickerProviderStateMixin {
-
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   TabController? _tabController;
@@ -26,17 +18,12 @@ class _HomePageWidgetState extends State<HomePageWidget>
   void initState() {
     super.initState();
 
+       _tabController = new TabController(length: 3, vsync: this);
 
-    _tabController = TabController(
-      vsync: this,
-      length: 3,
-      initialIndex: 0,
-    )..addListener(() => safeSetState(() {}));
   }
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -91,19 +78,18 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       Text(
                                         'Good Morning',
                                         style: TextStyle(
-                                              fontFamily: 'Inter',
-                                              letterSpacing: 0.0,
-                                            ),
+                                          fontFamily: 'Inter',
+                                          letterSpacing: 0.0,
+                                        ),
                                       ),
                                       Text(
                                         'Sandra',
- style: TextStyle(
-                                   
-                                              fontFamily: 'Inter',
-                                              fontSize: 21.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 21.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -118,8 +104,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       5.0, 0.0, 5.0, 0.0),
                                   child: Icon(
                                     Icons.map,
-                                    color: Theme.of(context)
-                                        .primaryText,
+                                    color: Colors.black,
                                     size: 24.0,
                                   ),
                                 ),
@@ -128,8 +113,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       5.0, 0.0, 5.0, 0.0),
                                   child: Icon(
                                     Icons.shopping_cart_sharp,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
+                                    color: Colors.black,
                                     size: 24.0,
                                   ),
                                 ),
@@ -138,8 +122,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       5.0, 0.0, 5.0, 0.0),
                                   child: Icon(
                                     Icons.notification_important_outlined,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
+                                    color: Colors.black,
                                     size: 24.0,
                                   ),
                                 ),
@@ -148,8 +131,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       5.0, 0.0, 5.0, 0.0),
                                   child: Icon(
                                     Icons.search_sharp,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
+                                    color: Colors.black,
                                     size: 24.0,
                                   ),
                                 ),
@@ -176,7 +158,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                   width: double.infinity,
                   height: 100.0,
                   decoration: BoxDecoration(
-                    color: Colors.grey,
+                    color: Colors.white,
                     shape: BoxShape.rectangle,
                   ),
                   child: Column(
@@ -185,18 +167,15 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         alignment: Alignment(0.0, 0),
                         child: TabBar(
                           labelColor: Colors.black,
-                          unselectedLabelColor:
-                              Colors.grey,
-                          labelStyle:
-                              TextStyle(
-                                    fontFamily: 'Inter Tight',
-                                    letterSpacing: 0.0,
-                                  ),
-                          unselectedLabelStyle:
-                              TextStyle(
-                                    fontFamily: 'Inter Tight',
-                                    letterSpacing: 0.0,
-                                  ),
+                          unselectedLabelColor: Colors.grey,
+                          labelStyle: TextStyle(
+                            fontFamily: 'Inter Tight',
+                            letterSpacing: 0.0,
+                          ),
+                          unselectedLabelStyle: TextStyle(
+                            fontFamily: 'Inter Tight',
+                            letterSpacing: 0.0,
+                          ),
                           indicatorColor: Colors.black,
                           tabs: [
                             Tab(
@@ -209,7 +188,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               text: 'Tab 3',
                             ),
                           ],
-                          controller:_tabController,
+                          controller: _tabController,
                           onTap: (i) async {
                             [() async {}, () async {}, () async {}][i]();
                           },
@@ -312,7 +291,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                           child: Text(
                                                             'Banku',
                                                             style: TextStyle(
-                                                    
                                                               fontFamily:
                                                                   'Inter',
                                                               color:
@@ -321,7 +299,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   0.0,
                                                               shadows: [
                                                                 Shadow(
-                                                                  color: Colors.grey,
+                                                                  color: Colors
+                                                                      .grey,
                                                                   offset:
                                                                       Offset(
                                                                           2.0,
@@ -378,33 +357,34 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     'Ghc ',
-                                                                    style: TextStyle(
-                                                                 
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                   Text(
                                                                     '100',
-                                                                    style:TextStyle(
-                                                               
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              17.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          17.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -439,16 +419,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                           5.0),
                                                                   child: Text(
                                                                     'Order Now',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Colors.white,
-                                                                          fontSize:
-                                                                              7.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          7.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
@@ -457,7 +438,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         ),
                                                         Divider(
                                                           thickness: 1.0,
-                                                         
                                                         ),
                                                         Padding(
                                                           padding:
@@ -488,17 +468,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     '40 balls',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:Colors.grey,
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -507,16 +490,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                     BoxDecoration(),
                                                                 child: Text(
                                                                   'Customizable',
-                                                                  style: TextStyle(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        color: Color(
-                                                                            0xFFF94638),
-                                                                        fontSize:
-                                                                            9.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    color: Color(
+                                                                        0xFFF94638),
+                                                                    fontSize:
+                                                                        9.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ],
@@ -618,7 +602,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   0.0,
                                                               shadows: [
                                                                 Shadow(
-                                                                  color: Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                   offset:
                                                                       Offset(
                                                                           2.0,
@@ -675,31 +660,34 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     'Ghc ',
-                                                                    style:TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                   Text(
                                                                     '100',
-                                                                    style:TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              17.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          17.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -734,16 +722,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                           5.0),
                                                                   child: Text(
                                                                     'Order Now',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Colors.white,
-                                                                          fontSize:
-                                                                              7.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          7.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
@@ -752,7 +741,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         ),
                                                         Divider(
                                                           thickness: 1.0,
-                                                     
                                                         ),
                                                         Padding(
                                                           padding:
@@ -783,17 +771,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     '40 balls',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:Colors.grey,
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -802,16 +793,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                     BoxDecoration(),
                                                                 child: Text(
                                                                   'Customizable',
-                                                                  style: TextStyle(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        color: Color(
-                                                                            0xFFF94638),
-                                                                        fontSize:
-                                                                            9.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    color: Color(
+                                                                        0xFFF94638),
+                                                                    fontSize:
+                                                                        9.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ],
@@ -904,7 +896,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   0.0, 0.0),
                                                           child: Text(
                                                             'Banku',
-                                                            style:TextStyle(
+                                                            style: TextStyle(
                                                               fontFamily:
                                                                   'Inter',
                                                               color:
@@ -913,7 +905,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   0.0,
                                                               shadows: [
                                                                 Shadow(
-                                                                  color: Colors.black,
+                                                                  color: Colors
+                                                                      .black,
                                                                   offset:
                                                                       Offset(
                                                                           2.0,
@@ -970,31 +963,34 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     'Ghc ',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                   Text(
                                                                     '100',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              17.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          17.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -1029,16 +1025,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                           5.0),
                                                                   child: Text(
                                                                     'Order Now',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Colors.white,
-                                                                          fontSize:
-                                                                              7.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          7.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
@@ -1047,9 +1044,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         ),
                                                         Divider(
                                                           thickness: 1.0,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .alternate,
                                                         ),
                                                         Padding(
                                                           padding:
@@ -1080,21 +1074,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     '40 balls',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleLarge
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondaryText,
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -1103,19 +1096,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                     BoxDecoration(),
                                                                 child: Text(
                                                                   'Customizable',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        color: Color(
-                                                                            0xFFF94638),
-                                                                        fontSize:
-                                                                            9.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    color: Color(
+                                                                        0xFFF94638),
+                                                                    fontSize:
+                                                                        9.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ],
@@ -1208,10 +1199,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   0.0, 0.0),
                                                           child: Text(
                                                             'Banku',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
+                                                            style: TextStyle(
                                                               fontFamily:
                                                                   'Inter',
                                                               color:
@@ -1220,9 +1208,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                   0.0,
                                                               shadows: [
                                                                 Shadow(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
+                                                                  color: Colors
+                                                                      .grey,
                                                                   offset:
                                                                       Offset(
                                                                           2.0,
@@ -1279,37 +1266,34 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     'Ghc ',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                   Text(
                                                                     '100',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleLarge
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:
-                                                                              Color(0xFF00B61D),
-                                                                          fontSize:
-                                                                              17.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w600,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Color(
+                                                                          0xFF00B61D),
+                                                                      fontSize:
+                                                                          17.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -1344,19 +1328,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                           5.0),
                                                                   child: Text(
                                                                     'Order Now',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Colors.white,
-                                                                          fontSize:
-                                                                              7.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontSize:
+                                                                          7.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
@@ -1365,9 +1347,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                         ),
                                                         Divider(
                                                           thickness: 1.0,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .alternate,
                                                         ),
                                                         Padding(
                                                           padding:
@@ -1398,21 +1377,20 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                 children: [
                                                                   Text(
                                                                     '40 balls',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleLarge
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Inter Tight',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondaryText,
-                                                                          fontSize:
-                                                                              12.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter Tight',
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          12.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                    ),
                                                                   ),
                                                                 ],
                                                               ),
@@ -1421,19 +1399,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                                     BoxDecoration(),
                                                                 child: Text(
                                                                   'Customizable',
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        color: Color(
-                                                                            0xFFF94638),
-                                                                        fontSize:
-                                                                            9.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    color: Color(
+                                                                        0xFFF94638),
+                                                                    fontSize:
+                                                                        9.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ],
