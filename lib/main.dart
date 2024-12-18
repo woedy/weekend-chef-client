@@ -1,40 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:weekend_chef_client/HomePage/HomePage.dart';
-import 'package:weekend_chef_client/HomePage/dish_details.dart';
-import 'package:weekend_chef_client/chef/chef_details.dart';
+import 'package:flutter/services.dart';
+import 'package:weekend_chef_client/SplashScreen/spalsh_screen_first.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'constants.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) => {runApp(MyApp())});
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return GestureDetector(
+      onTap: () {
+        // Hide the keyboard when tapping outside the text field
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Weekend Chef',
+        //theme: theme(),
+        home: MyHomePage(),
       ),
-      home: const ChefDetailsWidget(),
     );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String? api_key = "";
+
+  Future? _user_api;
+
+  @override
+  void initState() {
+    super.initState();
+    _user_api = apiKey();
+  }
+
+  Future apiKey() async {
+    api_key = await getApiPref();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: _user_api,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return SplashScreenFirst();
+          // return api_key == null ? SplashScreenFirst() : HomeScreen();
+          //return VerifyEmail(email: 'BK-KOB8C2_AP',);
+          //return BookingPaymentPage(amount: '200',);
+        });
   }
 }

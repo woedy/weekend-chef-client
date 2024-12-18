@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weekend_chef_client/constants.dart';
 import 'package:weekend_chef_client/utils/custom_ui.dart';
 
 class OrderCartDetailWidget extends StatefulWidget {
@@ -8,7 +9,8 @@ class OrderCartDetailWidget extends StatefulWidget {
   State<OrderCartDetailWidget> createState() => _OrderCartDetailWidgetState();
 }
 
-class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with TickerProviderStateMixin {
+class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>
+    with TickerProviderStateMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TabController? _tabController;
 
@@ -37,15 +39,52 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                'https://picsum.photos/seed/957/600',
+              child: Image.asset(
+                'assets/images/banku2.png',
                 width: double.infinity,
                 height: 241,
                 fit: BoxFit.cover,
               ),
             ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.only(top: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: bookPrimary,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Icon(
+                          Icons.arrow_back,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                      )),
+                  Text(
+                    "Order Item Details",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.search,
+                    size: 20,
+                    color: bookPrimary,
+                  ),
+                ],
+              ),
+            ),
             Align(
-              alignment: AlignmentDirectional(0, -0.6),
+              alignment: AlignmentDirectional(0, -0.62),
               child: Container(
                 width: double.infinity,
                 height: 80,
@@ -69,8 +108,7 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                             child: Text(
                               'Banku',
                               style: TextStyle(
@@ -569,18 +607,20 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                                                         0, 0),
                                                                 child: Text(
                                                                   'Order Status',
-                                                                  style: TextStyle(
-                                                                        fontFamily:
-                                                                            'Inter',
-                                                                        color: Colors
-                                                                            .black,
-                                                                        fontSize:
-                                                                            14,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.w600,
-                                                                      ),
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'Inter',
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        14,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -619,7 +659,7 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: Image.network(
-                                            'https://images.unsplash.com/photo-1730317195704-c4666cc830a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHw1fHxtYXB8ZW58MHx8fHwxNzM0MzMxOTgwfDA&ixlib=rb-4.0.3&q=80&w=1080',
+                                            'https://images.unsplash.com/photo-1524661135-423995f22d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwyfHxtYXB8ZW58MHx8fHwxNzM0MTkzNzExfDA&ixlib=rb-4.0.3&q=80&w=1080',
                                           ).image,
                                         ),
                                       ),
@@ -628,18 +668,19 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                       width: double.infinity,
                                       height: double.infinity,
                                       decoration: BoxDecoration(),
-                                      child: ListView(
+                                      child: ListView.builder(
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
                                         scrollDirection: Axis.vertical,
-                                        children: [
-                                          Padding(
+                                        itemCount: 4,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     15, 5, 15, 0),
                                             child: Container(
                                               width: double.infinity,
-                                              height: 40,
+                                              height: 45,
                                               decoration: BoxDecoration(
                                                 color: Color(0xC4FFFFFF),
                                                 boxShadow: [
@@ -747,18 +788,20 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                                                           0),
                                                                   child: Text(
                                                                     'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Color(
+                                                                          0xFFF94638),
+                                                                      fontSize:
+                                                                          12,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                                 Padding(
@@ -770,18 +813,20 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                                                           0),
                                                                   child: Text(
                                                                     '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontFamily:
+                                                                          'Inter',
+                                                                      color: Color(
+                                                                          0xFF209200),
+                                                                      fontSize:
+                                                                          12,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ],
@@ -794,1304 +839,8 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    15, 5, 15, 0),
-                                            child: Container(
-                                              width: double.infinity,
-                                              height: 40,
-                                              decoration: BoxDecoration(
-                                                color: Color(0xC4FFFFFF),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    blurRadius: 4,
-                                                    color: Color(0x33000000),
-                                                    offset: Offset(
-                                                      0,
-                                                      2,
-                                                    ),
-                                                  )
-                                                ],
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(5),
-                                                  bottomRight:
-                                                      Radius.circular(5),
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                ),
-                                              ),
-                                              child: Container(
-                                                decoration: BoxDecoration(),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(1, 0, 0, 0),
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(10, 0,
-                                                                    0, 0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          10,
-                                                                          0),
-                                                              child: Container(
-                                                                width: 10,
-                                                                height: 10,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: Color(
-                                                                      0xFF209200),
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Order Accepted',
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        10,
-                                                                        0),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          5,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    'Thus, 28 June 2024',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFFF94638),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          3,
-                                                                          0,
-                                                                          0),
-                                                                  child: Text(
-                                                                    '10:25 AM',
-                                                                    style: TextStyle(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              Color(0xFF209200),
-                                                                          fontSize:
-                                                                              12,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                          );
+                                        },
                                       ),
                                     ),
                                   ],
@@ -2155,12 +904,12 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                         child: Text(
                                           'Larry Cook',
                                           style: TextStyle(
-                                                fontFamily: 'Inter',
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                            fontFamily: 'Inter',
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -2177,11 +926,11 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                       child: Text(
                                         'Madina Zongo',
                                         style: TextStyle(
-                                              fontFamily: 'Inter',
-                                              color: Colors.white,
-                                              fontSize: 10,
-                                              letterSpacing: 0.0,
-                                            ),
+                                          fontFamily: 'Inter',
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          letterSpacing: 0.0,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -2197,11 +946,11 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                                     child: Text(
                                       '56 km ',
                                       style: TextStyle(
-                                            fontFamily: 'Inter',
-                                            color: Colors.white,
-                                            fontSize: 9,
-                                            letterSpacing: 0.0,
-                                          ),
+                                        fontFamily: 'Inter',
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        letterSpacing: 0.0,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -2224,8 +973,8 @@ class _OrderCartDetailWidgetState extends State<OrderCartDetailWidget>  with Tic
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                child: Image.network(
-                  'https://picsum.photos/seed/274/600',
+                child: Image.asset(
+                  'assets/images/larry.png',
                   fit: BoxFit.cover,
                 ),
               ),

@@ -1,7 +1,7 @@
+import 'package:weekend_chef_client/constants.dart';
 import 'package:weekend_chef_client/utils/custom_ui.dart';
 
 import 'package:flutter/material.dart';
-
 
 class CartDetailsWidget extends StatefulWidget {
   const CartDetailsWidget({super.key});
@@ -10,8 +10,8 @@ class CartDetailsWidget extends StatefulWidget {
   State<CartDetailsWidget> createState() => _CartDetailsWidgetState();
 }
 
-class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProviderStateMixin  {
-
+class _CartDetailsWidgetState extends State<CartDetailsWidget>
+    with TickerProviderStateMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TabController? _tabController;
 
@@ -23,7 +23,6 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -41,15 +40,52 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                'https://picsum.photos/seed/957/600',
+              child: Image.asset(
+                'assets/images/banku2.png',
                 width: double.infinity,
                 height: 241,
                 fit: BoxFit.cover,
               ),
             ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.only(top: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: bookPrimary,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Icon(
+                          Icons.arrow_back,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                      )),
+                  Text(
+                    " ",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.search,
+                    size: 20,
+                    color: bookPrimary,
+                  ),
+                ],
+              ),
+            ),
             Align(
-              alignment: AlignmentDirectional(0, -0.6),
+              alignment: AlignmentDirectional(0, -0.62),
               child: Container(
                 width: double.infinity,
                 height: 80,
@@ -73,17 +109,16 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                             child: Text(
                               'Banku',
                               style: TextStyle(
-                                    fontFamily: 'Inter',
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                fontFamily: 'Inter',
+                                color: Colors.white,
+                                fontSize: 16,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ],
@@ -167,15 +202,12 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                         child: Text(
                                                           'Order Summary',
                                                           style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 18,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
+                                                            fontFamily: 'Inter',
+                                                            fontSize: 18,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
                                                         ),
                                                       ),
                                                       Padding(
@@ -186,12 +218,10 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                         child: Text(
                                                           'Cart ID: BK3454-ER',
                                                           style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
+                                                            fontFamily: 'Inter',
+                                                            fontSize: 12,
+                                                            letterSpacing: 0.0,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
@@ -238,15 +268,15 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                           Text(
                                                             '40 Balls',
                                                             style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  fontSize: 16,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: 16,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -257,12 +287,12 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                           Text(
                                                             ' of ',
                                                             style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  fontSize: 16,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: 16,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -273,15 +303,15 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                           Text(
                                                             'Banku',
                                                             style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  fontSize: 16,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              fontSize: 16,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
                                                           ),
                                                         ],
                                                       ),
@@ -290,7 +320,6 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                 ),
                                                 Divider(
                                                   thickness: 2,
-                                                
                                                 ),
                                                 Expanded(
                                                   child: Row(
@@ -305,11 +334,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Order',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -322,20 +351,20 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Ghc ',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                             Text(
                                                               '1000',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -356,11 +385,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Delivery',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -373,20 +402,20 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Ghc ',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                             Text(
                                                               '200',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -407,11 +436,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Tax',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -424,33 +453,32 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Ghc ',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                             Text(
                                                               '45',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                             Text(
                                                               ' (13% of total cart item)',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    color: Color(
-                                                                        0xFF686868),
-                                                                    fontSize:
-                                                                        10,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: Color(
+                                                                    0xFF686868),
+                                                                fontSize: 10,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -471,11 +499,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Customized',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -488,11 +516,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Yes',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -513,16 +541,15 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Total',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    fontSize:
-                                                                        16,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                fontSize: 16,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -535,29 +562,28 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Ghc ',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    color: Color(
-                                                                        0xFF209220),
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: Color(
+                                                                    0xFF209220),
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                             Text(
                                                               '1,245.00',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    color: Color(
-                                                                        0xFF209220),
-                                                                    fontSize:
-                                                                        16,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: Color(
+                                                                    0xFF209220),
+                                                                fontSize: 16,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -578,15 +604,14 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                             Text(
                                                               'Delivery is calculated based on your current location',
                                                               style: TextStyle(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    color: Color(
-                                                                        0xFF3381FF),
-                                                                    fontSize:
-                                                                        11,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: Color(
+                                                                    0xFF3381FF),
+                                                                fontSize: 11,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ],
                                                         ),
@@ -665,10 +690,10 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                   child: Text(
                                                     'Save',
                                                     style: TextStyle(
-                                                          fontFamily: 'Inter',
-                                                          color: Colors.white,
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                      fontFamily: 'Inter',
+                                                      color: Colors.white,
+                                                      letterSpacing: 0.0,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -716,10 +741,10 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                     child: Text(
                                                       'Set delivery date/time',
                                                       style: TextStyle(
-                                                            fontFamily: 'Inter',
-                                                            fontSize: 12,
-                                                            letterSpacing: 0.0,
-                                                          ),
+                                                        fontFamily: 'Inter',
+                                                        fontSize: 12,
+                                                        letterSpacing: 0.0,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -758,11 +783,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                     child: Text(
                                                       'Change Delivery Location',
                                                       style: TextStyle(
-                                                            fontFamily: 'Inter',
-                                                            color: Colors.white,
-                                                            fontSize: 12,
-                                                            letterSpacing: 0.0,
-                                                          ),
+                                                        fontFamily: 'Inter',
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        letterSpacing: 0.0,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -823,14 +848,12 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                         Text(
                                                           'Your package will be delivered on',
                                                           style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                color: Color(
-                                                                    0xFF000305),
-                                                                fontSize: 11,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
+                                                            fontFamily: 'Inter',
+                                                            color: Color(
+                                                                0xFF000305),
+                                                            fontSize: 11,
+                                                            letterSpacing: 0.0,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -843,37 +866,29 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                         Text(
                                                           'Sun, 12 June',
                                                           style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
+                                                            fontFamily: 'Inter',
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
                                                         ),
                                                         Text(
                                                           ' @ around ',
                                                           style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 12,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
+                                                            fontFamily: 'Inter',
+                                                            fontSize: 12,
+                                                            letterSpacing: 0.0,
+                                                          ),
                                                         ),
                                                         Text(
                                                           '12:30 pm',
                                                           style: TextStyle(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 14,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                              ),
+                                                            fontFamily: 'Inter',
+                                                            fontSize: 14,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
@@ -897,13 +912,13 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                           child: Text(
                                                             'Modina Zongo',
                                                             style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  color: Color(
-                                                                      0xFFF94638),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              color: Color(
+                                                                  0xFFF94638),
+                                                              letterSpacing:
+                                                                  0.0,
+                                                            ),
                                                           ),
                                                         ),
                                                       ],
@@ -928,13 +943,13 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                                           child: Text(
                                                             'Airport Hills',
                                                             style: TextStyle(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  color: Color(
-                                                                      0xFF209220),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
+                                                              fontFamily:
+                                                                  'Inter',
+                                                              color: Color(
+                                                                  0xFF209220),
+                                                              letterSpacing:
+                                                                  0.0,
+                                                            ),
                                                           ),
                                                         ),
                                                       ],
@@ -1008,12 +1023,12 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                         child: Text(
                                           'Larry Cook',
                                           style: TextStyle(
-                                                fontFamily: 'Inter',
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                            fontFamily: 'Inter',
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1030,11 +1045,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                       child: Text(
                                         'Madina Zongo',
                                         style: TextStyle(
-                                              fontFamily: 'Inter',
-                                              color: Colors.white,
-                                              fontSize: 10,
-                                              letterSpacing: 0.0,
-                                            ),
+                                          fontFamily: 'Inter',
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          letterSpacing: 0.0,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -1050,11 +1065,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                                     child: Text(
                                       '56 km ',
                                       style: TextStyle(
-                                            fontFamily: 'Inter',
-                                            color: Colors.white,
-                                            fontSize: 9,
-                                            letterSpacing: 0.0,
-                                          ),
+                                        fontFamily: 'Inter',
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        letterSpacing: 0.0,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -1077,8 +1092,8 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                child: Image.network(
-                  'https://picsum.photos/seed/274/600',
+                child: Image.asset(
+                  'assets/images/larry.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -1102,11 +1117,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>  with TickerProvi
                   child: Text(
                     'Customize',
                     style: TextStyle(
-                          fontFamily: 'Inter',
-                          color: Colors.white,
-                          fontSize: 12,
-                          letterSpacing: 0.0,
-                        ),
+                      fontFamily: 'Inter',
+                      color: Colors.white,
+                      fontSize: 12,
+                      letterSpacing: 0.0,
+                    ),
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weekend_chef_client/constants.dart';
 import 'package:weekend_chef_client/utils/custom_ui.dart';
 
 class ChefDetailsWidget extends StatefulWidget {
@@ -44,6 +45,43 @@ class _ChefDetailsWidgetState extends State<ChefDetailsWidget>
                 width: double.infinity,
                 height: 241,
                 fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: EdgeInsets.only(top: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: bookPrimary,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Icon(
+                          Icons.arrow_back,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                      )),
+                  Text(
+                    "Chef Details",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.search,
+                    size: 20,
+                    color: bookPrimary,
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -692,7 +730,7 @@ class _ChefDetailsWidgetState extends State<ChefDetailsWidget>
               ),
             ),
             Align(
-              alignment: AlignmentDirectional(-0.02, -0.81),
+              alignment: AlignmentDirectional(0.0, -0.77),
               child: Container(
                 width: 100,
                 height: 100,
@@ -700,8 +738,8 @@ class _ChefDetailsWidgetState extends State<ChefDetailsWidget>
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                 ),
-                child: Image.network(
-                  'https://images.unsplash.com/photo-1654922207993-2952fec328ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxfHxjaGVmfGVufDB8fHx8MTczNDM0NDQ2MHww&ixlib=rb-4.0.3&q=80&w=400',
+                child: Image.asset(
+                  'assets/images/larry.png',
                   fit: BoxFit.cover,
                 ),
               ),

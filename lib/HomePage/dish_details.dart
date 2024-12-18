@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:weekend_chef_client/Cart/my_cart.dart';
+import 'package:weekend_chef_client/chef/chef_details.dart';
+import 'package:weekend_chef_client/constants.dart';
 
 class DishDetailsWidget extends StatefulWidget {
   const DishDetailsWidget({super.key});
@@ -11,6 +14,7 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
     with TickerProviderStateMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TabController? _tabController;
+  int _selectedChefIndex = -1; // Variable to store the selected index
 
   @override
   void initState() {
@@ -38,11 +42,48 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                'https://picsum.photos/seed/957/600',
+              child: Image.asset(
+                'assets/images/banku2.png',
                 width: double.infinity,
                 height: 241,
                 fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.only(top: 40),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            color: bookPrimary,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: const Icon(
+                          Icons.arrow_back,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                      )),
+                  Text(
+                    "Dish Details",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.search,
+                    size: 20,
+                    color: bookPrimary,
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -190,505 +231,198 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
                                       Expanded(
                                         flex: 3,
                                         child: Container(
-                                          width: double.infinity,
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                          ),
-                                          child: ListView(
-                                            padding: EdgeInsets.zero,
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(5, 5, 5, 5),
-                                                child: Container(
-                                                  width: 130,
-                                                  height: 100,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Stack(
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, 1),
-                                                        child: Container(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 115,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Color(
-                                                                0xFFF94638),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        14),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        10),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          5,
-                                                                          0,
-                                                                          5,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World gtroi oio',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          13,
-                                                                      letterSpacing:
-                                                                          0.0,
+                                            width: double.infinity,
+                                            height: 100,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                            ),
+                                            child: ListView(
+                                              padding: EdgeInsets.zero,
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              children:
+                                                  List.generate(5, (index) {
+                                                return Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(5, 5, 5, 5),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        // Toggle selection state
+                                                        if (_selectedChefIndex ==
+                                                            index) {
+                                                          _selectedChefIndex =
+                                                              -1; // Deselect if already selected
+                                                        } else {
+                                                          _selectedChefIndex =
+                                                              index; // Select the tapped item
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Container(
+                                                      width: 130,
+                                                      height: 100,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                      ),
+                                                      child: Stack(
+                                                        children: [
+                                                          Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    0, 1),
+                                                            child: Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              height: 115,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: _selectedChefIndex ==
+                                                                        index
+                                                                    ? Color(
+                                                                        0xFFF94638)
+                                                                    : Colors
+                                                                        .transparent, // Default color
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            14),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0,
+                                                                            0,
+                                                                            0,
+                                                                            10),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              5,
+                                                                              0,
+                                                                              5,
+                                                                              5),
+                                                                      child:
+                                                                          Text(
+                                                                        'Larry Cooks',
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontFamily:
+                                                                              'Inter',
+                                                                          color: _selectedChefIndex == index
+                                                                              ? Colors.white
+                                                                              : Colors.black,
+                                                                          fontSize:
+                                                                              13,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          9,
-                                                                      letterSpacing:
-                                                                          0.0,
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              5),
+                                                                      child:
+                                                                          Text(
+                                                                        'Madina Zongo',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontFamily:
+                                                                              'Inter',
+                                                                          color: _selectedChefIndex == index
+                                                                              ? Colors.white
+                                                                              : Colors.black,
+                                                                          fontSize:
+                                                                              9,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                      ),
                                                                     ),
-                                                                  ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              5),
+                                                                      child:
+                                                                          Text(
+                                                                        '5 km',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontFamily:
+                                                                              'Inter',
+                                                                          color: _selectedChefIndex == index
+                                                                              ? Colors.white
+                                                                              : Colors.black,
+                                                                          fontSize:
+                                                                              9,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                              ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, -1),
-                                                        child: Container(
-                                                          width: 95,
-                                                          height: 95,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.white,
-                                                            image:
-                                                                DecorationImage(
-                                                              fit: BoxFit.cover,
-                                                              image:
-                                                                  Image.network(
-                                                                'https://images.unsplash.com/photo-1610851467843-fe4a65aea9c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxN3x8Y2hlZiUyMG11Z3Nob3R8ZW58MHx8fHwxNzM0MjQxMzMxfDA&ixlib=rb-4.0.3&q=80&w=1080',
-                                                              ).image,
-                                                            ),
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(5, 5, 5, 5),
-                                                child: Container(
-                                                  width: 130,
-                                                  height: 100,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Stack(
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, 1),
-                                                        child: Container(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 115,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        14),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        10),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          5,
-                                                                          0,
-                                                                          5,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World gtroi oio',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Color(
-                                                                          0xFF000305),
-                                                                      fontSize:
-                                                                          13,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
+                                                          Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    0, -0.8),
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder:
+                                                                            (context) =>
+                                                                                ChefDetailsWidget()));
+                                                              },
+                                                              child: Container(
+                                                                width: 95,
+                                                                height: 95,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  image:
+                                                                      DecorationImage(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    image: AssetImage(
+                                                                        'assets/images/larry.png'),
                                                                   ),
+                                                                  shape: BoxShape
+                                                                      .circle,
                                                                 ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Color(
-                                                                          0xFF000305),
-                                                                      fontSize:
-                                                                          9,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
+                                                        ],
                                                       ),
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, -1),
-                                                        child: Container(
-                                                          width: 95,
-                                                          height: 95,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.white,
-                                                            image:
-                                                                DecorationImage(
-                                                              fit: BoxFit.cover,
-                                                              image:
-                                                                  Image.network(
-                                                                'https://images.unsplash.com/photo-1610851467843-fe4a65aea9c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxN3x8Y2hlZiUyMG11Z3Nob3R8ZW58MHx8fHwxNzM0MjQxMzMxfDA&ixlib=rb-4.0.3&q=80&w=1080',
-                                                              ).image,
-                                                            ),
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(5, 5, 5, 5),
-                                                child: Container(
-                                                  width: 130,
-                                                  height: 100,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Stack(
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, 1),
-                                                        child: Container(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 115,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        14),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        10),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          5,
-                                                                          0,
-                                                                          5,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World gtroi oio',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Color(
-                                                                          0xFF000305),
-                                                                      fontSize:
-                                                                          13,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Color(
-                                                                          0xFF000305),
-                                                                      fontSize:
-                                                                          9,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, -1),
-                                                        child: Container(
-                                                          width: 95,
-                                                          height: 95,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.white,
-                                                            image:
-                                                                DecorationImage(
-                                                              fit: BoxFit.cover,
-                                                              image:
-                                                                  Image.network(
-                                                                'https://images.unsplash.com/photo-1610851467843-fe4a65aea9c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxN3x8Y2hlZiUyMG11Z3Nob3R8ZW58MHx8fHwxNzM0MjQxMzMxfDA&ixlib=rb-4.0.3&q=80&w=1080',
-                                                              ).image,
-                                                            ),
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(5, 5, 5, 5),
-                                                child: Container(
-                                                  width: 130,
-                                                  height: 100,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Stack(
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, 1),
-                                                        child: Container(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 115,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        14),
-                                                          ),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        10),
-                                                            child: Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .end,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          5,
-                                                                          0,
-                                                                          5,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World gtroi oio',
-                                                                    textAlign:
-                                                                        TextAlign
-                                                                            .center,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Color(
-                                                                          0xFF000305),
-                                                                      fontSize:
-                                                                          13,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          5),
-                                                                  child: Text(
-                                                                    'Hello World',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontFamily:
-                                                                          'Inter',
-                                                                      color: Color(
-                                                                          0xFF000305),
-                                                                      fontSize:
-                                                                          9,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0, -1),
-                                                        child: Container(
-                                                          width: 95,
-                                                          height: 95,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.white,
-                                                            image:
-                                                                DecorationImage(
-                                                              fit: BoxFit.cover,
-                                                              image:
-                                                                  Image.network(
-                                                                'https://images.unsplash.com/photo-1610851467843-fe4a65aea9c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxN3x8Y2hlZiUyMG11Z3Nob3R8ZW58MHx8fHwxNzM0MjQxMzMxfDA&ixlib=rb-4.0.3&q=80&w=1080',
-                                                              ).image,
-                                                            ),
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                                );
+                                              }),
+                                            )),
                                       ),
                                       Expanded(
                                         flex: 6,
@@ -878,47 +612,56 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
-                                                      Container(
-                                                        width: 150,
-                                                        height: 40,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    10),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    0),
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    0),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    10),
-                                                          ),
-                                                          border: Border.all(
-                                                            color: Color(
-                                                                0xFFF94638),
-                                                            width: 1,
-                                                          ),
-                                                        ),
-                                                        child: Align(
-                                                          alignment:
-                                                              AlignmentDirectional(
-                                                                  0, 0),
-                                                          child: Text(
-                                                            'Hello World',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          MyCartWidget()));
+                                                        },
+                                                        child: Container(
+                                                          width: 150,
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                              bottomLeft: Radius
+                                                                  .circular(10),
+                                                              bottomRight:
+                                                                  Radius
+                                                                      .circular(
+                                                                          0),
+                                                              topLeft: Radius
+                                                                  .circular(0),
+                                                              topRight: Radius
+                                                                  .circular(10),
+                                                            ),
+                                                            border: Border.all(
                                                               color: Color(
                                                                   0xFFF94638),
-                                                              fontSize: 11,
-                                                              letterSpacing:
-                                                                  0.0,
+                                                              width: 1,
+                                                            ),
+                                                          ),
+                                                          child: Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    0, 0),
+                                                            child: Text(
+                                                              'Add to cart',
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    'Inter',
+                                                                color: Color(
+                                                                    0xFFF94638),
+                                                                fontSize: 11,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -956,7 +699,7 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
                                                               AlignmentDirectional(
                                                                   0, 0),
                                                           child: Text(
-                                                            'Hello World',
+                                                            'Place Order',
                                                             style: TextStyle(
                                                               fontFamily:
                                                                   'Inter',
