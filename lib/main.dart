@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weekend_chef_client/HomePage/HomePage.dart';
+import 'package:weekend_chef_client/HomePage/dish_details.dart';
+import 'package:weekend_chef_client/chef/chef_details.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePageWidget(),
+      home: const ChefDetailsWidget(),
     );
   }
 }

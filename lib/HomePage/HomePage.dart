@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -18,8 +17,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
   void initState() {
     super.initState();
 
-       _tabController = new TabController(length: 3, vsync: this);
-
+    _tabController = new TabController(length: 3, vsync: this);
   }
 
   @override
@@ -38,7 +36,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
         key: scaffoldKey,
         backgroundColor: Colors.white,
         body: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+          padding: EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
