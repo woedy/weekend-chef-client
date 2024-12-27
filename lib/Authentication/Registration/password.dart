@@ -10,10 +10,11 @@ import 'package:weekend_chef_client/Authentication/Registration/verify_email.dar
 import 'package:weekend_chef_client/Components/generic_error_dialog_box.dart';
 import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
 import 'package:weekend_chef_client/Components/generic_success_dialog_box.dart';
+import 'package:weekend_chef_client/Components/keyboard_utils.dart';
 import 'package:weekend_chef_client/constants.dart';
 
 Future<SignUpModel> signUpUser(data) async {
-  final url = Uri.parse(hostName + "accounts/register-user/");
+  final url = Uri.parse(hostName + "api/accounts/register-client/");
   final request = http.MultipartRequest('POST', url);
 
   request.headers['Accept'] = 'application/json';
@@ -27,7 +28,8 @@ Future<SignUpModel> signUpUser(data) async {
     // request.files.add(await http.MultipartFile.fromString('photo', ''));
   }
 
-  request.fields['full_name'] = data["full_name"];
+  request.fields['first_name'] = data["first_name"];
+  request.fields['last_name'] = data["last_name"];
   request.fields['email'] = data["email"];
   request.fields['phone'] = data["phone"];
   request.fields['country'] = data["country"];
@@ -48,7 +50,6 @@ Future<SignUpModel> signUpUser(data) async {
       await saveIDApiKey(result['data']['token'].toString());
       await saveUserData(result['data']);
       await saveEmail(result['data']['email'].toString());
-
 
       return SignUpModel.fromJson(result);
     } else if (response.statusCode == 422 ||
@@ -338,11 +339,7 @@ class _PasswordState extends State<Password> {
                       ),
                       InkWell(
                         onTap: () {
-
-                                   Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => VerifyEmail(email: 'weekendchefclient@gmail.com',)));
-                 
-            /*               if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             KeyboardUtil.hideKeyboard(context);
 
@@ -353,7 +350,7 @@ class _PasswordState extends State<Password> {
 
                             _futureSignUp = signUpUser(widget.data);
                             //_futureSignIn = signInUser(user!, password!, platformType!);
-                          } */
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),
@@ -386,60 +383,77 @@ class _PasswordState extends State<Password> {
 
   FutureBuilder<SignUpModel> buildFutureBuilder() {
     return FutureBuilder<SignUpModel>(
-        future: _futureSignUp,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return LoadingDialogBox(
-              text: 'Please Wait..',
-            );
-          } else if (snapshot.hasData) {
-            var data = snapshot.data!;
-
-            print("#########################");
-            //print(data.data!.token!);
-
-            if (data.message == "Successful") {
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VerifyEmail(
-                            email: widget.data['email'],
-                          )),
-                );
-
-                showDialog(
-                    barrierDismissible: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      // Show the dialog
-                      return SuccessDialogBox(text: "Registration Successful");
-                    });
-              });
-            } else if (data.message == "Errors") {
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => Registration1()),
-                  (route) => false,
-                );
-
-                showDialog(
-                    barrierDismissible: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      // Show the dialog
-                      return ErrorDialogBox(
-                          text: "Email already exists in our database.");
-                    });
-              });
-            }
-          }
-
+      future: _futureSignUp,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return LoadingDialogBox(
             text: 'Please Wait..',
           );
-        });
+        } else if (snapshot.hasData) {
+          var data = snapshot.data!;
+
+          print("#########################");
+          //print(data.data!.token!);
+
+          if (data.message == "Successful") {
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VerifyEmail(
+                    email: widget.data['email'],
+                  ),
+                ),
+              );
+
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (BuildContext context) {
+                  // Show the dialog
+                  return SuccessDialogBox(text: "Registration Successful");
+                },
+              );
+            });
+          } else if (data.message == "Errors") {
+            // Gather all error messages and display them
+            List<String> errorMessages = [];
+
+            // Loop through all errors and create a list of messages
+            if (data.errors != null) {
+              data.errors!.forEach((key, value) {
+                // Assuming `value` is a list of error messages
+                errorMessages.addAll(value);
+              });
+            }
+
+            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => Registration1()),
+                (route) => false,
+              );
+
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (BuildContext context) {
+                  // Combine the error messages into a single string
+                  String errorText = errorMessages.join("\n");
+
+                  // Show the error dialog with detailed errors
+                  return ErrorDialogBox(text: errorText);
+                },
+              );
+            });
+          }
+        }
+
+        return LoadingDialogBox(
+          text: 'Please Wait..',
+        );
+      },
+    );
   }
 
   void dispose() {

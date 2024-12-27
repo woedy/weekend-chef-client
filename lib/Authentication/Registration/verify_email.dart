@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pin_code_text_field/pin_code_text_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:weekend_chef_client/Authentication/Login/login_screen.dart';
@@ -16,7 +15,7 @@ import 'package:weekend_chef_client/constants.dart';
 
 Future<VerifyEmailModel> verifyUserEmail(String email_token, email) async {
   final response = await http.post(
-    Uri.parse(hostName + "accounts/verify-user-email/"),
+    Uri.parse(hostName + "api/accounts/verify-client-email/"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
@@ -113,9 +112,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
                             Row(
                               children: [
                                 Container(
@@ -235,22 +231,14 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       ),
                       InkWell(
                         onTap: () {
-
-                                   Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePageWidget()));
-                 
-
-
-
-
-                 /*          setState(() {
+                          setState(() {
                             _futureVerifyEmail =
                                 verifyUserEmail(email_token, widget.email);
                           });
 
                           print(widget.email);
                           print(email_token);
- */
+
                           /* showDialog(
                                   context: context,
                                   builder: (_) => VerifyDialogBox(

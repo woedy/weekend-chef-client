@@ -12,7 +12,7 @@ import 'package:weekend_chef_client/constants.dart';
 
 Future<VerifyEmailModel> resetPasswordToken(String email, String token) async {
   final response = await http.post(
-    Uri.parse(hostName + "accounts/confirm-password-otp/"),
+    Uri.parse(hostName + "api/accounts/confirm-password-otp/"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
@@ -224,16 +224,10 @@ class _PasswordConfirmState extends State<PasswordConfirm> {
                       ),
                       InkWell(
                         onTap: () {
-
-                                   Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ResetPassword(email: 'weekendchefclient@gmail.com',)));
-                 
-
-
-                   /*        setState(() {
+                          setState(() {
                             _futureResetToken =
                                 resetPasswordToken(widget.email, email_token);
-                          }); */
+                          });
 
                           /* showDialog(
                                   context: context,

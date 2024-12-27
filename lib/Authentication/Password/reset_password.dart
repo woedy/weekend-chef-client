@@ -8,11 +8,12 @@ import 'package:weekend_chef_client/Authentication/Registration/models/verify_em
 import 'package:weekend_chef_client/Components/generic_error_dialog_box.dart';
 import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
 import 'package:weekend_chef_client/Components/generic_success_dialog_box.dart';
+import 'package:weekend_chef_client/Components/keyboard_utils.dart';
 import 'package:weekend_chef_client/constants.dart';
 
 Future<VerifyEmailModel> updatePassword(String email, password) async {
   final response = await http.post(
-    Uri.parse(hostName + "accounts/new-password-reset/"),
+    Uri.parse(hostName + "api/accounts/new-password-reset/"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
@@ -314,19 +315,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                       ),
                       InkWell(
                         onTap: () {
-                                   Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                 
-
-
-
-          /*                 if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             KeyboardUtil.hideKeyboard(context);
 
                             _futureResetPassword =
                                 updatePassword(widget.email, password);
-                          } */
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),

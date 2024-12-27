@@ -17,7 +17,8 @@ class _Registration1State extends State<Registration1> {
 
   FocusNode focusNode = FocusNode();
 
-  String? full_name;
+  String? first_name;
+  String? last_name;
   String? phone;
   String? email;
   String? _code;
@@ -98,12 +99,11 @@ class _Registration1State extends State<Registration1> {
                                     style: const TextStyle(
                                         color: Colors.black, fontSize: 14),
                                     decoration: InputDecoration(
-                                      //hintText: 'Enter Username/Email',
 
                                       hintStyle: const TextStyle(
                                           color: Colors.grey,
                                           fontWeight: FontWeight.normal),
-                                      labelText: "Full name",
+                                      labelText: "First name",
                                       labelStyle: TextStyle(
                                           fontSize: 10,
                                           color: Colors.black.withOpacity(0.5)),
@@ -120,17 +120,67 @@ class _Registration1State extends State<Registration1> {
                                     ],
                                     validator: (value) {
                                       if (value!.isEmpty) {
-                                        return 'Full name is required';
+                                        return 'First name is required';
                                       }
                                       if (value.length < 3) {
-                                        return 'Full name too short';
+                                        return 'First name too short';
                                       }
                                     },
                                     textInputAction: TextInputAction.next,
                                     autofocus: false,
                                     onSaved: (value) {
                                       setState(() {
-                                        full_name = value;
+                                        first_name = value;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+
+
+                                   Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TextFormField(
+                                    style: const TextStyle(
+                                        color: Colors.black, fontSize: 14),
+                                    decoration: InputDecoration(
+                                      //hintText: 'Enter Username/Email',
+
+                                      hintStyle: const TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.normal),
+                                      labelText: "Last name",
+                                      labelStyle: TextStyle(
+                                          fontSize: 10,
+                                          color: Colors.black.withOpacity(0.5)),
+
+                                      contentPadding: const EdgeInsets
+                                          .symmetric(
+                                          vertical: 5.0,
+                                          horizontal:
+                                              12.0), // Adjust the vertical value to change height
+                                    ),
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(225),
+                                      PasteTextInputFormatter(),
+                                    ],
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return 'Last name is required';
+                                      }
+                                      if (value.length < 3) {
+                                        return 'Last name too short';
+                                      }
+                                    },
+                                    textInputAction: TextInputAction.next,
+                                    autofocus: false,
+                                    onSaved: (value) {
+                                      setState(() {
+                                        last_name = value;
                                       });
                                     },
                                   ),
@@ -278,7 +328,8 @@ class _Registration1State extends State<Registration1> {
                             phone = _code.toString() + _number.toString();
 
                             print("##################");
-                            print(full_name);
+                            print(first_name);
+                            print(last_name);
                             print(phone);
                             print(email);
                             print(_code);
@@ -286,7 +337,8 @@ class _Registration1State extends State<Registration1> {
                             print(country);
 
                             var data = {
-                              "full_name": full_name,
+                              "first_name": first_name,
+                              "last_name": first_name,
                               "phone": phone,
                               "email": email,
                               "country": country,

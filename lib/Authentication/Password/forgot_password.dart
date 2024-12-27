@@ -8,11 +8,12 @@ import 'package:weekend_chef_client/Authentication/Registration/verify_email.dar
 import 'package:weekend_chef_client/Components/generic_error_dialog_box.dart';
 import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
 import 'package:weekend_chef_client/Components/generic_success_dialog_box.dart';
+import 'package:weekend_chef_client/Components/keyboard_utils.dart';
 import 'package:weekend_chef_client/constants.dart';
 
 Future<ForgotPasswordModel> forgotPassword(String email) async {
   final response = await http.post(
-    Uri.parse(hostName + "accounts/forgot-user-password/"),
+    Uri.parse(hostName + "api/accounts/forgot-user-password/"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
@@ -211,20 +212,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VerifyEmail(
-                                        email: 'weekendcleint@gmail.com',
-                                      )));
-
-                          /*              if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
                             KeyboardUtil.hideKeyboard(context);
 
                             _futureForgotPassword = forgotPassword(email!);
                             //_futureSignIn = signInUser(user!, password!, platformType!);
-                          } */
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),

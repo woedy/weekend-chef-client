@@ -1,14 +1,59 @@
-import 'dart:collection';
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:weekend_chef_client/Cart/my_cart.dart';
 import 'package:weekend_chef_client/ClientProfile/client_profile.dart';
+import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
 import 'package:weekend_chef_client/HomePage/dish_details.dart';
 import 'package:weekend_chef_client/HomePage/dish_map_view.dart';
+import 'package:weekend_chef_client/HomePage/models/home_data_model.dart';
 import 'package:weekend_chef_client/Orders/my_orders.dart';
-import 'package:weekend_chef_client/Orders/order_cart_details.dart';
+import 'package:weekend_chef_client/SplashScreen/spalsh_screen.dart';
 import 'package:weekend_chef_client/constants.dart';
+import 'package:http/http.dart' as http;
+
+Future<HomeDataModel> get_home_data(String lat, String lng) async {
+  print('##################');
+  print(lat);
+  print(lng);
+  var token = await getApiPref();
+  var userId = await getUserIDPref();
+
+  final response = await http.get(
+    Uri.parse(
+        "${hostName}api/homepage/client-homepage-data/?user_id=bpdx50b329cpe1g5f8w2rf6yd6owmvhrit&lat=$lat&lng=$lng"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      //'Authorization': 'Token ' + token.toString()
+      'Authorization': 'Token dfb32ded6baee652c714d865485d8966f06d6eb0'
+    },
+  );
+  print(response.statusCode);
+  if (response.statusCode == 200 || response.statusCode == 201) {
+    print(jsonDecode(response.body));
+    final result = json.decode(response.body);
+
+    return HomeDataModel.fromJson(jsonDecode(response.body));
+  } else if (response.statusCode == 422) {
+    print(jsonDecode(response.body));
+    return HomeDataModel.fromJson(jsonDecode(response.body));
+  } else if (response.statusCode == 403) {
+    print(jsonDecode(response.body));
+    return HomeDataModel.fromJson(jsonDecode(response.body));
+  } else if (response.statusCode == 400) {
+    print(jsonDecode(response.body));
+    return HomeDataModel.fromJson(jsonDecode(response.body));
+  } else if (response.statusCode == 401) {
+    print(jsonDecode(response.body));
+    return HomeDataModel.fromJson(jsonDecode(response.body));
+  } else {
+    //throw Exception('Failed to load data');
+    print(jsonDecode(response.body));
+    return HomeDataModel.fromJson(jsonDecode(response.body));
+  }
+}
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
@@ -23,6 +68,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   TabController? _tabController;
   int _selectedIndex = 0;
+  Future<HomeDataModel>? _futureHomeData;
 
   // Example tab data where each tab contains 'image', 'text', and 'content'
   final List<Map<String, dynamic>> tabs = [
@@ -89,36 +135,36 @@ class _HomePageWidgetState extends State<HomePageWidget>
   ];
 
   // Function to get the content of the selected tab
-  Widget getTabContent(int index) {
-    var selectedTab = tabs[index];
+  Widget getTabContent(int index, List<Dishes>? dishes) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
           child: GridView.builder(
               padding: EdgeInsets.zero,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 0.0,
                 mainAxisSpacing: 1.0,
                 childAspectRatio: 1.0,
               ),
               scrollDirection: Axis.vertical,
-              itemCount: 10,
+              itemCount: dishes!.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DishDetailsWidget()));
+                            builder: (context) => const DishDetailsWidget()));
                   },
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(5.0, 5.0, 5.0, 0.0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        5.0, 5.0, 5.0, 0.0),
                     child: Container(
                       width: 100.0,
                       height: 100.0,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
@@ -150,10 +196,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: Image.asset(selectedTab['photo'])
+                                      image: Image.network(hostNameMedia +
+                                              dishes[index]
+                                                  .coverPhoto
+                                                  .toString())
                                           .image,
                                     ),
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(0.0),
                                       bottomRight: Radius.circular(0.0),
                                       topLeft: Radius.circular(0.0),
@@ -162,18 +211,25 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   ),
                                 ),
                                 Align(
-                                  alignment: AlignmentDirectional(0.0, 1.0),
+                                  alignment:
+                                      const AlignmentDirectional(0.0, 1.0),
                                   child: Container(
                                     width: double.infinity,
                                     height: 30.0,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(131, 0, 0, 0),
-                                    ),
+                                    decoration: const BoxDecoration(
+                                        color: Color.fromARGB(155, 0, 0, 0),
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(0.0),
+                                          bottomRight: Radius.circular(0.0),
+                                          topLeft: Radius.circular(5.0),
+                                          topRight: Radius.circular(5.0),
+                                        )),
                                     child: Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      alignment:
+                                          const AlignmentDirectional(0.0, 0.0),
                                       child: Text(
-                                        selectedTab['content']!,
-                                        style: TextStyle(
+                                        dishes[index].name.toString(),
+                                        style: const TextStyle(
                                           fontFamily: 'Inter',
                                           color: Colors.white,
                                           letterSpacing: 0.0,
@@ -196,16 +252,17 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             child: Container(
                               width: double.infinity,
                               height: 85.0,
-                              decoration: BoxDecoration(),
+                              decoration: const BoxDecoration(),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     5.0, 5.0, 5.0, 5.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 0.0, 5.0, 0.0),
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              5.0, 0.0, 5.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -216,7 +273,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 'Ghc ',
                                                 style: TextStyle(
                                                   fontFamily: 'Inter',
@@ -226,8 +283,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                 ),
                                               ),
                                               Text(
-                                                '100',
-                                                style: TextStyle(
+                                                dishes[index]
+                                                    .basePrice
+                                                    .toString(),
+                                                style: const TextStyle(
                                                   fontFamily: 'Inter Tight',
                                                   color: Color(0xFF00B61D),
                                                   fontSize: 17.0,
@@ -238,9 +297,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                             ],
                                           ),
                                           Container(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 horizontal: 7, vertical: 3),
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Color(0xFFF94638),
                                               borderRadius: BorderRadius.only(
                                                 bottomLeft:
@@ -251,7 +310,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                 topRight: Radius.circular(30.0),
                                               ),
                                             ),
-                                            child: Center(
+                                            child: const Center(
                                               child: Text(
                                                 'Order Now',
                                                 style: TextStyle(
@@ -266,13 +325,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                         ],
                                       ),
                                     ),
-                                    Divider(
+                                    const Divider(
                                       thickness: 1.0,
                                     ),
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 0.0, 5.0, 5.0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(5.0, 0.0, 5.0, 5.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
@@ -286,8 +345,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                   CrossAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                  '40 balls',
-                                                  style: TextStyle(
+                                                  dishes[index]
+                                                      .value
+                                                      .toString(),
+                                                  style: const TextStyle(
                                                     fontFamily: 'Inter Tight',
                                                     color: Colors.grey,
                                                     fontSize: 12.0,
@@ -298,18 +359,22 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                                 ),
                                               ],
                                             ),
-                                            Container(
-                                              decoration: BoxDecoration(),
-                                              child: Text(
-                                                'Customizable',
-                                                style: TextStyle(
-                                                  fontFamily: 'Inter',
-                                                  color: Color(0xFFF94638),
-                                                  fontSize: 9.0,
-                                                  letterSpacing: 0.0,
+                                            if (dishes[index].customizable ==
+                                                true) ...[
+                                              Container(
+                                                decoration:
+                                                    const BoxDecoration(),
+                                                child: const Text(
+                                                  'Customizable',
+                                                  style: TextStyle(
+                                                    fontFamily: 'Inter',
+                                                    color: Color(0xFFF94638),
+                                                    fontSize: 9.0,
+                                                    letterSpacing: 0.0,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
+                                            ]
                                           ],
                                         ),
                                       ),
@@ -334,243 +399,343 @@ class _HomePageWidgetState extends State<HomePageWidget>
   void initState() {
     super.initState();
 
-    _tabController = new TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    _futureHomeData = get_home_data('5.6037', '-0.1870');
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
+    return (_futureHomeData == null) ? buildColumn() : buildFutureBuilder();
+  }
+
+  buildColumn() {
+    return Scaffold(
+      body: Container(),
+    );
+  }
+
+  FutureBuilder<HomeDataModel> buildFutureBuilder() {
+    return FutureBuilder<HomeDataModel>(
+        future: _futureHomeData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingDialogBox(
+              text: 'Please Wait..',
+            );
+          } else if (snapshot.hasData) {
+            var data = snapshot.data!;
+
+            var userData = data.data!.userData;
+            var categories = data.data!.dishCategories!;
+            var notification_count = data.data!.notificationCount!;
+
+            if (data.message == "Successful") {
+              return GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                child: Scaffold(
+                  key: scaffoldKey,
+                  backgroundColor: Colors.white,
+                  body: Stack(
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            10.0, 0.0, 10.0, 0.0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 50.0, 0.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Row(
+                            Column(
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.asset(
-                                        'assets/images/weekend_logo2.png',
-                                        width: 66.0,
-                                        height: 50.0,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 0.0, 0.0, 0.0),
-                                      child: Column(
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      10.0, 0.0, 10.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Row(
                                         mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            'Good Morning',
-                                            style: TextStyle(
-                                              fontFamily: 'Inter',
-                                              letterSpacing: 0.0,
-                                            ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/weekend_logo2.png',
+                                                  width: 66.0,
+                                                  height: 50.0,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 0.0, 0.0, 0.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      // Dynamic greeting based on time of day
+                                                      DateTime.now().hour < 12
+                                                          ? "Good Morning"
+                                                          : DateTime.now()
+                                                                      .hour <
+                                                                  18
+                                                              ? "Good Afternoon"
+                                                              : "Good Evening",
+                                                      style: const TextStyle(
+                                                          //fontSize: 12,
+                                                          color: Colors.black),
+                                                    ),
+                                                    Text(
+                                                      userData!.firstName
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                        fontFamily: 'Inter',
+                                                        fontSize: 21.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            'Sandra',
-                                            style: TextStyle(
-                                              fontFamily: 'Inter',
-                                              fontSize: 21.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
-                                            ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const DishMapViewWidget()));
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          5.0, 0.0, 5.0, 0.0),
+                                                  child: Icon(
+                                                    Icons.map,
+                                                    color: Colors.black,
+                                                    size: 24.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MyCartWidget()));
+                                                },
+                                                child: const Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          5.0, 0.0, 5.0, 0.0),
+                                                  child: Icon(
+                                                    Icons.shopping_cart_sharp,
+                                                    color: Colors.black,
+                                                    size: 24.0,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        5.0, 0.0, 5.0, 0.0),
+                                                child: Stack(
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .notification_important_outlined,
+                                                      color: Colors.black,
+                                                      size: 24.0,
+                                                    ),
+                                                    if (notification_count >
+                                                        0) ...[
+                                                      Positioned(
+                                                        bottom: 0,
+                                                        right: 0,
+                                                        child: CircleAvatar(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          radius: 5,
+                                                        ),
+                                                      )
+                                                    ]
+                                                  ],
+                                                ),
+                                              ),
+                                              const Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        5.0, 0.0, 5.0, 0.0),
+                                                child: Icon(
+                                                  Icons.search_sharp,
+                                                  color: Colors.black,
+                                                  size: 24.0,
+                                                ),
+                                              ),
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(24.0),
+                                                child: Image.network(
+                                                  hostNameMedia +
+                                                      userData.photo.toString(),
+                                                  width: 44.0,
+                                                  height: 44.0,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DishMapViewWidget()));
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 0.0, 5.0, 0.0),
-                                        child: Icon(
-                                          Icons.map,
-                                          color: Colors.black,
-                                          size: 24.0,
-                                        ),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MyCartWidget()));
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 0.0, 5.0, 0.0),
-                                        child: Icon(
-                                          Icons.shopping_cart_sharp,
-                                          color: Colors.black,
-                                          size: 24.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 0.0, 5.0, 0.0),
-                                      child: Icon(
-                                        Icons.notification_important_outlined,
-                                        color: Colors.black,
-                                        size: 24.0,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 0.0, 5.0, 0.0),
-                                      child: Icon(
-                                        Icons.search_sharp,
-                                        color: Colors.black,
-                                        size: 24.0,
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(24.0),
-                                      child: Image.network(
-                                        'https://picsum.photos/seed/939/600',
-                                        width: 44.0,
-                                        height: 44.0,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
+                            ),
+                            Expanded(
+                              child: Container(
+                                width: double.infinity,
+                                height: 100.0,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.rectangle,
+                                ),
+                                child: Column(
+                                  children: [
+                                    // Custom Tab Bar
+                                    Container(
+                                      height:
+                                          100, // Set the height of the TabBar
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: categories.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                _selectedIndex = index;
+                                              });
+                                            },
+                                            child: Container(
+                                              //width: 100,
+                                              //color: Colors.deepOrange,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 60,
+                                                    height: 60,
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              hostNameMedia +
+                                                                  categories[
+                                                                          index]
+                                                                      .photo
+                                                                      .toString()),
+                                                          fit: BoxFit.cover),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    categories[index]
+                                                        .name
+                                                        .toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: _selectedIndex ==
+                                                              index
+                                                          ? bookPrimary
+                                                          : Colors.black,
+                                                    ),
+                                                  ),
+
+                                                  Container(
+                                                    width:
+                                                        60, // Width of the indicator (can be same as tab)
+                                                    height:
+                                                        4, // Height of the indicator
+
+                                                    decoration: BoxDecoration(
+                                                      color: _selectedIndex ==
+                                                              index
+                                                          ? bookPrimary
+                                                          : Colors.transparent,
+                                                      borderRadius:
+                                                          BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(10),
+                                                        topRight:
+                                                            Radius.circular(10),
+                                                      ),
+                                                    ),
+                                                  ) // Color of the indicator
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+
+                                    Expanded(
+                                      child: getTabContent(_selectedIndex,
+                                          categories[_selectedIndex].dishes),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
                       ),
+                      customNavBar(context)
                     ],
                   ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      height: 100.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Column(
-                        children: [
-                          // Custom Tab Bar
-                          Container(
-                            height: 100, // Set the height of the TabBar
-                            padding: EdgeInsets.symmetric(horizontal: 5),
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: tabs.length,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedIndex = index;
-                                    });
-                                  },
-                                  child: Container(
-                                    //width: 100,
-                                    //color: Colors.deepOrange,
-                                    margin: EdgeInsets.symmetric(horizontal: 5),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 60,
-                                          height: 60,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(
-                                                    tabs[index]['image']!),
-                                                fit: BoxFit.cover),
-                                          ),
-                                        ),
-                                        Text(
-                                          tabs[index]['text']!,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: _selectedIndex == index
-                                                ? bookPrimary
-                                                : Colors.black,
-                                          ),
-                                        ),
+                ),
+              );
+            } else {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SplashScreen()));
+              });
+            }
+          }
 
-                                        Container(
-                                          width:
-                                              60, // Width of the indicator (can be same as tab)
-                                          height: 4, // Height of the indicator
-                                          color: _selectedIndex == index
-                                              ? bookPrimary
-                                              : Colors.transparent,
-                                        ) // Color of the indicator
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-
-                          Expanded(
-                            child: getTabContent(_selectedIndex),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            customNavBar(context)
-          ],
-        ),
-      ),
-    );
+          return const LoadingDialogBox(
+            text: 'Please Wait.!!!.',
+          );
+        });
   }
 
   Positioned customNavBar(BuildContext context) {
@@ -580,8 +745,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
       right: 0,
       child: Container(
         // padding: EdgeInsets.symmetric(vertical: 13),
-        margin: EdgeInsets.all(5),
-        decoration: BoxDecoration(
+        margin: const EdgeInsets.all(5),
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [bookPrimary, Colors.transparent], // Blue gradient effect
             begin: Alignment.bottomCenter,
@@ -601,7 +766,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                 ], */
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
           ), // Match the container's border radius
@@ -610,7 +775,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 2.0),
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors
                         .transparent, // Use transparent to let the gradient show
                   ),
@@ -622,7 +787,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       0.2), // Slightly transparent white background
                 ),
                 child: Container(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -638,7 +803,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                               color:
                                   bookPrimary, // Change color to contrast with blue
                             ),
-                            Text('Home',
+                            const Text('Home',
                                 style:
                                     TextStyle(fontSize: 9, color: bookPrimary))
                           ],
@@ -649,7 +814,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    MyOrdersWidget()),
+                                    const MyOrdersWidget()),
                           );
                         },
                         child: Column(
@@ -661,7 +826,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   height: 20,
                                   color: Colors.white,
                                 ),
-                                Text('My Orders',
+                                const Text('My Orders',
                                     style: TextStyle(
                                         fontSize: 9, color: Colors.white))
                               ],
@@ -671,7 +836,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       ),
                       InkWell(
                         onTap: () {},
-                        child: Column(
+                        child: const Column(
                           children: [
                             Column(
                               children: [
@@ -695,7 +860,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   height: 20,
                                   color: Colors.white,
                                 ),
-                                Text('Settings',
+                                const Text('Settings',
                                     style: TextStyle(
                                         fontSize: 9, color: Colors.white))
                               ],
@@ -708,7 +873,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    ClientProfilePageWidget()),
+                                    const ClientProfilePageWidget()),
                           );
                         },
                         child: Column(
@@ -720,7 +885,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                   height: 20,
                                   color: Colors.white,
                                 ),
-                                Text('Profile',
+                                const Text('Profile',
                                     style: TextStyle(
                                         fontSize: 9, color: Colors.white))
                               ],

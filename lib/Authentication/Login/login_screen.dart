@@ -9,12 +9,13 @@ import 'package:weekend_chef_client/Authentication/Registration/registration_1.d
 import 'package:weekend_chef_client/Components/generic_error_dialog_box.dart';
 import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
 import 'package:weekend_chef_client/Components/generic_success_dialog_box.dart';
+import 'package:weekend_chef_client/Components/keyboard_utils.dart';
 import 'package:weekend_chef_client/HomePage/HomePage.dart';
 import 'package:weekend_chef_client/constants.dart';
 
 Future<SignInModel> signInUser(String email, String password) async {
   final response = await http.post(
-    Uri.parse(hostName + "accounts/login-user/"),
+    Uri.parse(hostName + "api/accounts/login-client/"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json'
@@ -348,13 +349,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomePageWidget()));
-
-                                          /*                                     if (_formKey.currentState!
+                                          if (_formKey.currentState!
                                               .validate()) {
                                             _formKey.currentState!.save();
                                             KeyboardUtil.hideKeyboard(context);
@@ -363,7 +358,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 signInUser(email!, password!);
                                             //_futureSignIn = signInUser(user!, password!, platformType!);
                                           }
- */
                                         },
                                         child: Container(
                                           padding: const EdgeInsets.all(10),

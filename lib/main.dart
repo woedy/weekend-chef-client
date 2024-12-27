@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:weekend_chef_client/HomePage/HomePage.dart';
 import 'package:weekend_chef_client/SplashScreen/spalsh_screen_first.dart';
 
 import 'constants.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Weekend Chef',
+        title: 'Weekend Chef Client',
         //theme: theme(),
         home: MyHomePage(),
       ),
@@ -59,8 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder(
         future: _user_api,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return SplashScreenFirst();
-          // return api_key == null ? SplashScreenFirst() : HomeScreen();
+          //return SplashScreenFirst();
+          return api_key == null ? SplashScreenFirst() : HomePageWidget();
           //return VerifyEmail(email: 'BK-KOB8C2_AP',);
           //return BookingPaymentPage(amount: '200',);
         });
