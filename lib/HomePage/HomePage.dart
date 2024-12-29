@@ -22,12 +22,12 @@ Future<HomeDataModel> get_home_data(String lat, String lng) async {
 
   final response = await http.get(
     Uri.parse(
-        "${hostName}api/homepage/client-homepage-data/?user_id=bpdx50b329cpe1g5f8w2rf6yd6owmvhrit&lat=$lat&lng=$lng"),
+        "${hostName}api/homepage/client-homepage-data/?user_id=b7yln0ns3tuob11nxgju1twvbko5mg01krcuk5478s&lat=$lat&lng=$lng"),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
       'Accept': 'application/json',
       //'Authorization': 'Token ' + token.toString()
-      'Authorization': 'Token dfb32ded6baee652c714d865485d8966f06d6eb0'
+      'Authorization': 'Token ea2056b5ab6e2f98f69d7192b9a21577c3dc55e8'
     },
   );
   print(response.statusCode);
@@ -70,70 +70,6 @@ class _HomePageWidgetState extends State<HomePageWidget>
   int _selectedIndex = 0;
   Future<HomeDataModel>? _futureHomeData;
 
-  // Example tab data where each tab contains 'image', 'text', and 'content'
-  final List<Map<String, dynamic>> tabs = [
-    {
-      'image': 'assets/images/banku.png',
-      'text': 'Swallows',
-      'content': 'Banku',
-      'photo': 'assets/images/banku2.png',
-    },
-    {
-      'image': 'assets/images/Mask group.png',
-      'text': 'Soup',
-      'content': 'Chicken Soup',
-      'photo': 'assets/images/soup2.png',
-    },
-    {
-      'image': 'assets/images/stew.png',
-      'text': 'Stews',
-      'content': 'Goat Stew',
-      'photo': 'assets/images/stew2.png',
-    },
-    {
-      'image': 'assets/images/Porridge.png',
-      'text': 'Porridge',
-      'content': 'Hausa Koko',
-      'photo': 'assets/images/Porridge2.png',
-    },
-    {
-      'image': 'assets/images/grains.png',
-      'text': 'Grains',
-      'content': 'Waakye',
-      'photo': 'assets/images/grains2.png',
-    },
-    {
-      'image': 'assets/images/banku.png',
-      'text': 'Swallows',
-      'content': 'Banku',
-      'photo': 'assets/images/banku2.png',
-    },
-    {
-      'image': 'assets/images/Mask group.png',
-      'text': 'Soup',
-      'content': 'Chicken Soup',
-      'photo': 'assets/images/soup2.png',
-    },
-    {
-      'image': 'assets/images/stew.png',
-      'text': 'Stews',
-      'content': 'Goat Stew',
-      'photo': 'assets/images/stew2.png',
-    },
-    {
-      'image': 'assets/images/Porridge.png',
-      'text': 'Porridge',
-      'content': 'Hausa Koko',
-      'photo': 'assets/images/Porridge2.png',
-    },
-    {
-      'image': 'assets/images/grains.png',
-      'text': 'Grains',
-      'content': 'Waakye',
-      'photo': 'assets/images/grains2.png',
-    },
-  ];
-
   // Function to get the content of the selected tab
   Widget getTabContent(int index, List<Dishes>? dishes) {
     return Column(
@@ -156,7 +92,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const DishDetailsWidget()));
+                            builder: (context) => DishDetailsWidget(
+                                dish_id: dishes[index].dishId.toString())));
                   },
                   child: Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(

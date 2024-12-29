@@ -111,7 +111,7 @@ class DishCategories {
 }
 
 class Dishes {
-  int? id;
+  String? dishId;
   String? name;
   String? coverPhoto;
   String? basePrice;
@@ -119,7 +119,7 @@ class Dishes {
   bool? customizable;
 
   Dishes(
-      {this.id,
+      {this.dishId,
       this.name,
       this.coverPhoto,
       this.basePrice,
@@ -127,7 +127,7 @@ class Dishes {
       this.customizable});
 
   Dishes.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    dishId = json['dish_id'];
     name = json['name'];
     coverPhoto = json['cover_photo'];
     basePrice = json['base_price'];
@@ -137,7 +137,7 @@ class Dishes {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['dish_id'] = this.dishId;
     data['name'] = this.name;
     data['cover_photo'] = this.coverPhoto;
     data['base_price'] = this.basePrice;
