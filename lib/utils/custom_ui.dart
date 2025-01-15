@@ -6,27 +6,27 @@ class FlutterFlowTheme {
   final Color secondaryBackground;
   final Color primaryText;
   final Color secondaryText;
-  
-  
+  final TextStyle bodyMedium;  // Add this property for bodyMedium
+
   // Constructor to initialize the theme properties
   FlutterFlowTheme({
     required this.primaryBackground,
     required this.secondaryBackground,
     required this.primaryText,
     required this.secondaryText,
+    required this.bodyMedium,  // Initialize bodyMedium
   });
 
   // Add methods to get your theme properties
   static FlutterFlowTheme of(BuildContext context) {
-    // Fetch the current theme of the context (you can replace this with your own logic)
-    // Here, we are using the default Flutter theme for simplicity
     final themeData = Theme.of(context);
 
     return FlutterFlowTheme(
-      primaryBackground: themeData.primaryColor, // or any other custom colors
-      secondaryBackground: Colors.white, // example, can be changed
+      primaryBackground: themeData.primaryColor,
+      secondaryBackground: Colors.white,
       primaryText: Colors.black,
       secondaryText: Colors.grey,
+      bodyMedium: themeData.textTheme.bodyMedium ?? TextStyle(),  // Fetch bodyMedium from Flutter's theme
     );
   }
 }

@@ -1,56 +1,10 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:weekend_chef_client/Cart/my_cart.dart';
-import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
-import 'package:weekend_chef_client/HomePage/models/dish_detail_model.dart';
-import 'package:weekend_chef_client/chef/chef_details.dart';
 import 'package:weekend_chef_client/constants.dart';
-import 'package:http/http.dart' as http;
 import 'package:weekend_chef_client/utils/custom_ui.dart';
 
-Future<DishDetailModel> get_dish_detail_data(String dish_id) async {
-  var token = await getApiPref();
-  var userId = await getUserIDPref();
-
-  final response = await http.get(
-    Uri.parse(
-        "${hostName}api/clients/get-client-dish-details/?dish_id=$dish_id&user_id=$userId"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      //'Authorization': 'Token ' + token.toString()
-      'Authorization': 'Token ea2056b5ab6e2f98f69d7192b9a21577c3dc55e8'
-    },
-  );
-  print(response.statusCode);
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    print(jsonDecode(response.body));
-    final result = json.decode(response.body);
-
-    return DishDetailModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 422) {
-    print(jsonDecode(response.body));
-    return DishDetailModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 403) {
-    print(jsonDecode(response.body));
-    return DishDetailModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 400) {
-    print(jsonDecode(response.body));
-    return DishDetailModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 401) {
-    print(jsonDecode(response.body));
-    return DishDetailModel.fromJson(jsonDecode(response.body));
-  } else {
-    //throw Exception('Failed to load data');
-    print(jsonDecode(response.body));
-    return DishDetailModel.fromJson(jsonDecode(response.body));
-  }
-}
+import 'package:flutter/material.dart';
 
 class CartDetailsWidget extends StatefulWidget {
-  final dish_id;
-  const CartDetailsWidget({super.key, required this.dish_id});
+  const CartDetailsWidget({super.key});
 
   @override
   State<CartDetailsWidget> createState() => _CartDetailsWidgetState();
@@ -60,18 +14,11 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>
     with TickerProviderStateMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   TabController? _tabController;
-  int _selectedChefIndex = -1; // Variable to store the selected index
-
-  Future<DishDetailModel>? _futureDishDetail;
 
   @override
   void initState() {
     super.initState();
-
     _tabController = new TabController(length: 3, vsync: this);
-  
-      _futureDishDetail = get_dish_detail_data(widget.dish_id);
-
   }
 
   @override
@@ -81,28 +28,7 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>
 
   @override
   Widget build(BuildContext context) {
-    return (_futureDishDetail == null) ? buildColumn() : buildFutureBuilder();
-  }
-
-  buildColumn() {
-    return Scaffold(
-      body: Container(),
-    );
-  }
-
-  FutureBuilder<DishDetailModel> buildFutureBuilder() {
-    return FutureBuilder<DishDetailModel>(
-        future: _futureDishDetail,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingDialogBox(
-              text: 'Please Wait..',
-            );
-          } else if (snapshot.hasData) {
-            var data = snapshot.data!;
-
-            if (data.message == "Successful") {
-           return GestureDetector(
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -1205,17 +1131,7 @@ class _CartDetailsWidgetState extends State<CartDetailsWidget>
       ),
     );
   
-          
-            } else {
-              return const LoadingDialogBox(
-                text: 'Please Wait.!!!.',
-              );
-            }
-          }
-
-          return const LoadingDialogBox(
-            text: 'Please Wait.!!!.',
-          );
-        });
+  
+  
   }
 }

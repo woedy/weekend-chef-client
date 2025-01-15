@@ -1,521 +1,242 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:weekend_chef_client/Cart/cart_details.dart';
-import 'package:weekend_chef_client/Orders/order_cart_details.dart';
+import 'package:weekend_chef_client/Cart/models/all_cart_items_model.dart';
+import 'package:weekend_chef_client/constants.dart';
 import 'package:weekend_chef_client/utils/custom_ui.dart';
+
+Future<AllCartItemsModel> get_all_cart_items({
+  int page = 1,
+  Map<String, String>? filters,
+  String? search_query,
+}) async {
+  var token = await getApiPref();
+  var user_id = await getUserIDPref();
+
+
+  // Construct the query parameters from the filters map
+  String filterQuery = '';
+  if (filters != null) {
+    filters.forEach((key, value) {
+      filterQuery += '&$key=$value';
+    });
+  }
+
+  final String url = hostName +
+      'api/orders/get-all-cart-items/?search=${search_query ?? ''}&user_id=${user_id.toString() ?? ''}&page=$page$filterQuery';
+
+  final response = await http.get(
+    Uri.parse(url),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'Authorization': 'Token $token',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    print(response.body);
+    return AllCartItemsModel.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
 
 class MyCartWidget extends StatefulWidget {
   const MyCartWidget({super.key});
 
   @override
-  State<MyCartWidget> createState() => _MyCartWidgetState();
+  State<MyCartWidget> createState() => _allCartItemsScreenState();
 }
 
-class _MyCartWidgetState extends State<MyCartWidget>
-    with TickerProviderStateMixin {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  TabController? _tabController;
+class _allCartItemsScreenState extends State<MyCartWidget> {
+  List<CartItem> _allCartItems = [];
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 3, vsync: this);
+    _fetchCartItems(); // Fetch data on init
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> _fetchCartItems() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final cartItemsData = await get_all_cart_items();
+
+      setState(() {
+        _allCartItems =
+            cartItemsData.data.carts.expand((cart) => cart.cartItems).toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      print('Error loading cart items: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: Colors.white,
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              margin: const EdgeInsets.only(top: 40),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF94638),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
+    return Scaffold(
+      appBar: AppBar(title: const Text('My Cart')),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: _allCartItems.length,
+              itemBuilder: (context, index) {
+                final cartItem = _allCartItems[index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CartDetailsWidget(dish_id: 'DI-5659LBHC-SH'),
                       ),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 24,
-                      ),
+                    );
+                  },
+                  child: Card(
+                    margin: EdgeInsets.all(12),
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
                     child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Text(
-                          'My Cart',
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 20,
-                            letterSpacing: 0.0,
+                        // Image contained within the Expanded widget
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  12), // To round the corners of the image
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    hostNameMedia + cartItem.dishCoverPhoto),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            height: 120, // Set a fixed height for the image
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                ),
-                child: Stack(
-                  children: [
-                    ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CartDetailsWidget()));
-                          },
-                          child: Container(
-                            width: 100,
-                            height: 242,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                            ),
-                            child: Stack(
+                        // Expanded section for the dish details
+                        Expanded(
+                          flex: 4,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Align(
-                                  alignment: AlignmentDirectional(0, 1),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        15, 0, 15, 0),
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 180,
-                                      decoration: BoxDecoration(
-                                        color: Color(0x654AD4FA),
-                                        borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
+                                Text(
+                                  cartItem.dishName,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 16,
+                                      backgroundImage: NetworkImage(
+                                        hostNameMedia + cartItem.chefPhoto,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        cartItem.chefName,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[700],
                                         ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(-0.68, -1.1),
-                                  child: Container(
-                                    width: 136,
-                                    height: 116,
-                                    decoration: BoxDecoration(),
-                                    child: Stack(
-                                      children: [
-                                        Align(
-                                          alignment: AlignmentDirectional(0, 1),
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 73,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xFFF94638),
-                                              borderRadius: BorderRadius.only(
-                                                bottomLeft: Radius.circular(10),
-                                                bottomRight:
-                                                    Radius.circular(10),
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(0.01, -0.49),
-                                          child: Container(
-                                            width: 60,
-                                            height: 60,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Image.asset(
-                                              'assets/images/larry.png',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: AlignmentDirectional(0, 1),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 0, 0, 15),
-                                            child: Text(
-                                              'Larry Cooks',
-                                              style: TextStyle(
-                                                fontFamily: 'Inter',
-                                                color: Colors.white,
-                                                letterSpacing: 0.0,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                SizedBox(height: 8),
+                                if (cartItem.chefLocation != null)
+                                  Text(
+                                    cartItem.chefLocation!,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[600],
                                     ),
                                   ),
-                                ),
-                                Align(
-                                  alignment: AlignmentDirectional(1.32, 0.69),
-                                  child: Container(
-                                    width: 150,
-                                    height: 150,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: Image.asset(
-                                                'assets/images/banku2.png')
-                                            .image,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 4,
-                                          color: Color(0x33000000),
-                                          offset: Offset(
-                                            0,
-                                            2,
-                                          ),
-                                        )
-                                      ],
-                                      shape: BoxShape.circle,
-                                    ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Quantity: ${cartItem.quantity} x ${cartItem.value}',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
                                   ),
                                 ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.41, -0.24),
-                                  child: Container(
-                                    width: 127,
-                                    height: 35,
-                                    decoration: BoxDecoration(),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Text(
-                                          'Ghc ',
-                                          style: TextStyle(
-                                            fontFamily: 'Inter',
-                                            color: Color(0xFF209220),
-                                            letterSpacing: 0.0,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            decoration: BoxDecoration(),
-                                            child: Text(
-                                              '100',
-                                              style: TextStyle(
-                                                fontFamily: 'Inter',
-                                                color: Color(0xFF209220),
-                                                fontSize: 20,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: AlignmentDirectional(-0.58, 0.8),
-                                  child: Container(
-                                    width: 257,
-                                    height: 115,
-                                    decoration: BoxDecoration(),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 100,
-                                            decoration: BoxDecoration(),
-                                            child: Text(
-                                              'Banku',
-                                              style: TextStyle(
-                                                fontFamily: 'Inter',
-                                                fontSize: 24,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 100,
-                                            decoration: BoxDecoration(),
-                                            child: Text(
-                                              '40 balls',
-                                              style: TextStyle(
-                                                fontFamily: 'Inter',
-                                                color: Color(0xFF686868),
-                                                fontSize: 13,
-                                                letterSpacing: 0.0,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 100,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.location_pin,
-                                                          color:
-                                                              Color(0xFFF94638),
-                                                          size: 20,
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            'Zongo Junction madina',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              color: Color(
-                                                                  0xFFF94638),
-                                                              fontSize: 12,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.location_pin,
-                                                          color:
-                                                              Color(0xFF209220),
-                                                          size: 20,
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            'Zongo Junction madina',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              color: Color(
-                                                                  0xFF209220),
-                                                              fontSize: 12,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            width: double.infinity,
-                                            //height: 100,
-                                            decoration: BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .av_timer_rounded,
-                                                          color:
-                                                              Color(0xFF000305),
-                                                          size: 20,
-                                                        ),
-                                                        Expanded(
-                                                          child: Text(
-                                                            'Sun, 28  June 2024',
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              color: Color(
-                                                                  0xFF000305),
-                                                              fontSize: 12,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Text(
-                                                          '10:30 am',
-                                                          style: TextStyle(
-                                                            fontFamily: 'Inter',
-                                                            color: Color(
-                                                                0xFF000305),
-                                                            fontSize: 12,
-                                                            letterSpacing: 0.0,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: AlignmentDirectional(0.91, -0.93),
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
-                                    child: Align(
-                                      alignment: AlignmentDirectional(0, 0),
-                                      child: Icon(
-                                        Icons.close_sharp,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 24,
-                                      ),
-                                    ),
+                                SizedBox(height: 4),
+                                Text(
+                                  'Total Price: \$${cartItem.totalPrice}',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(0, 1),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 40),
-                        child: Container(
-                          width: 150,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Color(0xFFF94638),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(0),
-                              topLeft: Radius.circular(0),
-                              topRight: Radius.circular(10),
-                            ),
-                          ),
-                          child: Align(
-                            alignment: AlignmentDirectional(0, 0),
-                            child: Text(
-                              'Place Order',
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                color: Colors.white,
-                                fontSize: 12,
-                                letterSpacing: 0.0,
-                              ),
-                            ),
-                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
-      ),
     );
+  }
+}
+
+class CartSearchDelegate extends SearchDelegate<String> {
+  final Function(String) onSearch;
+
+  CartSearchDelegate(this.onSearch);
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = ''; // Clear the search query
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, '');
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    onSearch(query); // Apply search
+    return Center(child: Text('Searching for "$query"'));
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Container(); // You can add suggestions if necessary
   }
 }

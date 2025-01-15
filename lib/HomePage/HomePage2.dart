@@ -1,61 +1,9 @@
-import 'dart:convert';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:weekend_chef_client/Cart/my_cart.dart';
 import 'package:weekend_chef_client/ClientProfile/client_profile.dart';
-import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
-import 'package:weekend_chef_client/HomePage/dish_details.dart';
-import 'package:weekend_chef_client/HomePage/dish_map_view.dart';
-import 'package:weekend_chef_client/HomePage/models/home_data_model.dart';
-import 'package:weekend_chef_client/NewUIs/categories.dart';
 import 'package:weekend_chef_client/Orders/my_orders.dart';
-import 'package:weekend_chef_client/SplashScreen/spalsh_screen.dart';
 import 'package:weekend_chef_client/constants.dart';
-import 'package:http/http.dart' as http;
 import 'package:weekend_chef_client/utils/custom_ui.dart';
-
-Future<HomeDataModel> get_home_data(String lat, String lng) async {
-  print('##################');
-  print(lat);
-  print(lng);
-  var token = await getApiPref();
-  var userId = await getUserIDPref();
-
-  final response = await http.get(
-    Uri.parse(
-        "${hostName}api/homepage/client-homepage-data/?user_id=$userId&lat=$lat&lng=$lng"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      'Authorization': 'Token ' + token.toString()
-      //'Authorization': 'Token ea2056b5ab6e2f98f69d7192b9a21577c3dc55e8'
-    },
-  );
-  print(response.statusCode);
-  if (response.statusCode == 200 || response.statusCode == 201) {
-    print(jsonDecode(response.body));
-    final result = json.decode(response.body);
-
-    return HomeDataModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 422) {
-    print(jsonDecode(response.body));
-    return HomeDataModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 403) {
-    print(jsonDecode(response.body));
-    return HomeDataModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 400) {
-    print(jsonDecode(response.body));
-    return HomeDataModel.fromJson(jsonDecode(response.body));
-  } else if (response.statusCode == 401) {
-    print(jsonDecode(response.body));
-    return HomeDataModel.fromJson(jsonDecode(response.body));
-  } else {
-    //throw Exception('Failed to load data');
-    print(jsonDecode(response.body));
-    return HomeDataModel.fromJson(jsonDecode(response.body));
-  }
-}
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
@@ -64,118 +12,79 @@ class HomePageWidget extends StatefulWidget {
   State<HomePageWidget> createState() => _HomePageWidgetState();
 }
 
-class _HomePageWidgetState extends State<HomePageWidget>
-    with TickerProviderStateMixin {
+class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Future<HomeDataModel>? _futureHomeData;
 
   @override
   void initState() {
     super.initState();
+  }
 
-    _futureHomeData = get_home_data('5.6037', '-0.1870');
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return (_futureHomeData == null) ? buildColumn() : buildFutureBuilder();
-  }
-
-  buildColumn() {
-    return Scaffold(
-      body: Container(),
-    );
-  }
-
-  FutureBuilder<HomeDataModel> buildFutureBuilder() {
-    return FutureBuilder<HomeDataModel>(
-        future: _futureHomeData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingDialogBox(
-              text: 'Please Wait..',
-            );
-          } else if (snapshot.hasData) {
-            var data = snapshot.data!;
-
-            var userData = data.data!.userData;
-            var categories = data.data!.dishCategories!;
-            var notification_count = data.data!.notificationCount!;
-            var cart_item_count = data.data!.cartItemCount!;
-            var popular = data.data!.popular!;
-
-            if (data.message == "Successful") {
-              return GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                child: Container(
-                  color: bookPrimary,
-                  child: SafeArea(
-                    top: true,
-                    child: Scaffold(
-                      key: scaffoldKey,
-                      backgroundColor: Colors.white,
-                      body: Stack(
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                appBarSection(context, userData,
-                                    cart_item_count, notification_count),
-                                Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: ListView(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      children: [
-                                        categoriesSection(context, categories),
-                                        exploreSection(context),
-                                        popularSection(context, popular),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Container(
+        color: bookPrimary,
+        child: SafeArea(
+          top: true,
+          child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: Colors.white,
+            body: Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      appBarSection(context),
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            shape: BoxShape.rectangle,
                           ),
-                          customNavBar(context)
-                        ],
+                          child: ListView(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            children: [
+                              categoriesSection(context),
+                              exploreSection(context),
+                              popularSection(context),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              );
-            } else {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SplashScreen()));
-              });
-            }
-          }
-
-          return const LoadingDialogBox(
-            text: 'Please Wait.!!!.',
-          );
-        });
+                customNavBar(context)
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+ 
+ 
+ 
+ 
   }
 
-  Column appBarSection(
-      BuildContext context, userData, cart_item_count, notification_count) {
+  Column appBarSection(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -188,6 +97,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
             ),
           ),
           child: Column(
+            
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
@@ -200,40 +110,37 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/weekend_logo2.png',
-                            width: 66.0,
-                            height: 50.0,
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            'https://picsum.photos/seed/939/600',
+                            width: 66,
+                            height: 50,
                             fit: BoxFit.cover,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 0.0, 0.0),
+                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                // Dynamic greeting based on time of day
-                                DateTime.now().hour < 12
-                                    ? "Good Morning"
-                                    : DateTime.now().hour < 18
-                                        ? "Good Afternoon"
-                                        : "Good Evening",
-                                style: const TextStyle(
-                                    //fontSize: 12,
-                                    color: Colors.white),
+                                'Good Morning',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                ),
                               ),
                               Text(
-                                userData!.firstName.toString(),
+                                'Sandra',
                                 style: const TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontSize: 21.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white),
+                                  fontFamily: 'Inter',
+                                  color: Colors.white,
+                                  fontSize: 21,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ],
                           ),
@@ -243,103 +150,44 @@ class _HomePageWidgetState extends State<HomePageWidget>
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const DishMapViewWidget()));
-                          },
-                          child: const Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                5.0, 0.0, 5.0, 0.0),
-                            child: Icon(
-                              Icons.map,
-                              color: Colors.white,
-                              size: 24.0,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const MyCartWidget()));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                5.0, 0.0, 5.0, 0.0),
-                            child: Stack(
-                              children: [
-                                const Icon(
-                                  Icons.shopping_cart_sharp,
-                                  color: Colors.white,
-                                  size: 24.0,
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: Container(
-                                    padding: EdgeInsets.all(2),
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(50.0),
-                                    ),
-                                    child: Text(
-                                      cart_item_count!.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                          child: Icon(
+                            Icons.map,
+                            color: Colors.white,
+                            size: 24,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              5.0, 0.0, 5.0, 0.0),
-                          child: Stack(
-                            children: [
-                              Icon(
-                                Icons.notification_important_outlined,
-                                color: Colors.white,
-                                size: 24.0,
-                              ),
-                              if (notification_count > 0) ...[
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.red,
-                                    radius: 5,
-                                  ),
-                                )
-                              ]
-                            ],
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                          child: Icon(
+                            Icons.shopping_cart_sharp,
+                            color: Colors.white,
+                            size: 24,
                           ),
                         ),
-           /*              const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              5.0, 0.0, 5.0, 0.0),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                          child: Icon(
+                            Icons.notification_important_outlined,
+                            color: Colors.white,
+                            size: 24,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                           child: Icon(
                             Icons.search_sharp,
                             color: Colors.white,
-                            size: 24.0,
+                            size: 24,
                           ),
-                        ), */
+                        ),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(24.0),
+                          borderRadius: BorderRadius.circular(24),
                           child: Image.network(
-                            hostNameMedia + userData.photo.toString(),
-                            width: 44.0,
-                            height: 44.0,
+                            'https://picsum.photos/seed/939/600',
+                            width: 44,
+                            height: 44,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -408,7 +256,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
     );
   }
 
-  Container categoriesSection(BuildContext context, categories) {
+  Container categoriesSection(BuildContext context) {
     return Container(
       width: 100,
       height: 185,
@@ -433,25 +281,13 @@ class _HomePageWidgetState extends State<HomePageWidget>
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => CategoriesWidget(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'View all',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 12,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                Text(
+                  'View all',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    letterSpacing: 0.0,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
@@ -465,7 +301,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: categories.length,
+              itemCount: 5,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
@@ -477,8 +313,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: Image.network(
-                                hostNameMedia + categories[index].photo)
-                            .image,
+                          'https://images.unsplash.com/photo-1484980972926-edee96e0960d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxM3x8Zm9vZHxlbnwwfHx8fDE3MzY2MTU2ODF8MA&ixlib=rb-4.0.3&q=80&w=400',
+                        ).image,
                       ),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
@@ -508,7 +344,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                             child: Text(
-                              categories[index].name.toString(),
+                              'Swallows',
                               style: TextStyle(
                                 fontFamily: 'Inter',
                                 color: Colors.white,
@@ -680,7 +516,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
     );
   }
 
-  Container popularSection(BuildContext context, popular) {
+  Container popularSection(BuildContext context) {
     return Container(
       width: 100,
       height: 350,
@@ -723,7 +559,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: popular.length,
+              itemCount: 4,
               itemBuilder: (context, index) {
                 return Column(
                   mainAxisSize: MainAxisSize.max,
@@ -740,8 +576,8 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: Image.network(
-                                    hostNameMedia + popular[index].coverPhoto)
-                                .image,
+                              'https://images.unsplash.com/photo-1484980972926-edee96e0960d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHNlYXJjaHwxM3x8Zm9vZHxlbnwwfHx8fDE3MzY2MTU2ODF8MA&ixlib=rb-4.0.3&q=80&w=400',
+                            ).image,
                           ),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
@@ -793,7 +629,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 10, 0, 0),
                                       child: Text(
-                                        popular[index].name,
+                                        'Chicken Stew',
                                         style: TextStyle(
                                           fontFamily: 'Inter',
                                           letterSpacing: 0.0,
@@ -812,9 +648,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 10, 0, 0),
                                       child: Text(
-                                        popular[index].description,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
+                                        'Classic tomato-based stew with seasoned chicken',
                                         style: TextStyle(
                                           fontFamily: 'Inter',
                                           fontSize: 13,
@@ -835,7 +669,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      popular[index].value.toString(),
+                                      '5 Packs',
                                       style: TextStyle(
                                         fontFamily: 'Inter',
                                         fontSize: 13,
@@ -847,7 +681,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 15, 0),
                                       child: Text(
-                                        'Ghc ' + popular[index].basePrice,
+                                        'Ghc 400',
                                         style: TextStyle(
                                           fontFamily: 'Inter',
                                           color: Color(0xFF00BD1C),
@@ -928,11 +762,11 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           Image.asset(
                             "assets/icons/home.png",
                             height: 20,
-                            color: Colors
-                                .grey, // Change color to contrast with blue
+                            color:
+                                bookPrimary, // Change color to contrast with blue
                           ),
                           const Text('Home',
-                              style: TextStyle(fontSize: 9, color: Colors.grey))
+                              style: TextStyle(fontSize: 9, color: bookPrimary))
                         ],
                       ),
                     ),

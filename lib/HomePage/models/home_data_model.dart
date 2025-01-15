@@ -23,8 +23,15 @@ class Data {
   UserData? userData;
   int? notificationCount;
   List<DishCategories>? dishCategories;
+  int? cartItemCount;
+  List<Popular>? popular;
 
-  Data({this.userData, this.notificationCount, this.dishCategories});
+  Data(
+      {this.userData,
+      this.notificationCount,
+      this.dishCategories,
+      this.cartItemCount,
+      this.popular});
 
   Data.fromJson(Map<String, dynamic> json) {
     userData = json['user_data'] != null
@@ -35,6 +42,13 @@ class Data {
       dishCategories = <DishCategories>[];
       json['dish_categories'].forEach((v) {
         dishCategories!.add(new DishCategories.fromJson(v));
+      });
+    }
+    cartItemCount = json['cart_item_count'];
+    if (json['popular'] != null) {
+      popular = <Popular>[];
+      json['popular'].forEach((v) {
+        popular!.add(new Popular.fromJson(v));
       });
     }
   }
@@ -48,6 +62,10 @@ class Data {
     if (this.dishCategories != null) {
       data['dish_categories'] =
           this.dishCategories!.map((v) => v.toJson()).toList();
+    }
+    data['cart_item_count'] = this.cartItemCount;
+    if (this.popular != null) {
+      data['popular'] = this.popular!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -82,20 +100,13 @@ class DishCategories {
   int? id;
   String? name;
   String? photo;
-  List<Dishes>? dishes;
 
-  DishCategories({this.id, this.name, this.photo, this.dishes});
+  DishCategories({this.id, this.name, this.photo});
 
   DishCategories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     photo = json['photo'];
-    if (json['dishes'] != null) {
-      dishes = <Dishes>[];
-      json['dishes'].forEach((v) {
-        dishes!.add(new Dishes.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
@@ -103,36 +114,36 @@ class DishCategories {
     data['id'] = this.id;
     data['name'] = this.name;
     data['photo'] = this.photo;
-    if (this.dishes != null) {
-      data['dishes'] = this.dishes!.map((v) => v.toJson()).toList();
-    }
     return data;
   }
 }
 
-class Dishes {
+class Popular {
   String? dishId;
   String? name;
   String? coverPhoto;
   String? basePrice;
   String? value;
   bool? customizable;
+  String? description;
 
-  Dishes(
+  Popular(
       {this.dishId,
       this.name,
       this.coverPhoto,
       this.basePrice,
       this.value,
-      this.customizable});
+      this.customizable,
+      this.description});
 
-  Dishes.fromJson(Map<String, dynamic> json) {
+  Popular.fromJson(Map<String, dynamic> json) {
     dishId = json['dish_id'];
     name = json['name'];
     coverPhoto = json['cover_photo'];
     basePrice = json['base_price'];
     value = json['value'];
     customizable = json['customizable'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -143,6 +154,7 @@ class Dishes {
     data['base_price'] = this.basePrice;
     data['value'] = this.value;
     data['customizable'] = this.customizable;
+    data['description'] = this.description;
     return data;
   }
 }

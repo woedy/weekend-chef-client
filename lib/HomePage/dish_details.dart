@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:weekend_chef_client/Cart/my_cart.dart';
 import 'package:weekend_chef_client/Components/generic_loading_dialogbox.dart';
+import 'package:weekend_chef_client/HomePage/HomePage.dart';
 import 'package:weekend_chef_client/HomePage/dish_map_view.dart';
 import 'package:weekend_chef_client/HomePage/models/dish_detail_model.dart';
 import 'package:weekend_chef_client/chef/chef_details.dart';
@@ -59,12 +60,13 @@ class DishDetailsWidget extends StatefulWidget {
 class _DishDetailsWidgetState extends State<DishDetailsWidget>
     with TickerProviderStateMixin {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  TabController? _tabController;
+
   int _selectedChefIndex = -1; // Variable to store the selected index
 
   Future<DishDetailModel>? _futureDishDetail;
   // Chef Radius
   double _radius = 5.0;
+  TabController? _tabController;
 
   //Cart data
   List<Custom> customData = [];
@@ -92,21 +94,6 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
         _radius -= 5.0; // Decrease by 5 (or modify this value as needed)
       }
     });
-  }
-
-
-  // Show a loading dialog
-  void _showLoadingDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false, // Prevent dismissing by tapping outside
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: CircularProgressIndicator(),
-          content: Text('Please wait...'),
-        );
-      },
-    );
   }
 
   // Show a success dialog
@@ -163,42 +150,47 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
     };
 
     // Show loading dialog before making the request
-    _showLoadingDialog();
+    LoadingDialogBox(
+      text: 'Please wait...',
+    );
 
     try {
       // Make the POST request
-    
-    final response = await http.post(
-    Uri.parse(
-        "${hostName}api/orders/add-cart-item/"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      'Accept': 'application/json',
-      //'Authorization': 'Token ' + token.toString()
-      'Authorization': 'Token ea2056b5ab6e2f98f69d7192b9a21577c3dc55e8'
-    },
-            body: jsonEncode(requestBody),
 
-  );
+      final response = await http.post(
+        Uri.parse("${hostName}api/orders/add-cart-item/"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json',
+          //'Authorization': 'Token ' + token.toString()
+          'Authorization': 'Token ea2056b5ab6e2f98f69d7192b9a21577c3dc55e8'
+        },
+        body: jsonEncode(requestBody),
+      );
 
       // Hide the loading dialog once the request is completed
-      Navigator.of(context).pop();  // Close the loading dialog
+      Navigator.of(context).pop(); // Close the loading dialog
 
       // Check the response
       if (response.statusCode == 200) {
         // Success
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const HomePageWidget()));
         _showSuccessDialog();
       } else {
         // Server error or invalid data
         print(response.body);
-        _showErrorDialog('Failed to add item to the cart. Please try again later.');
+        _showErrorDialog(
+            'Failed to add item to the cart. Please try again later.');
       }
     } catch (e) {
       // Network error
-      Navigator.of(context).pop();  // Close the loading dialog
-      _showErrorDialog('An error occurred. Please check your internet connection and try again.');
+      Navigator.of(context).pop(); // Close the loading dialog
+      _showErrorDialog(
+          'An error occurred. Please check your internet connection and try again.');
     }
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -954,7 +946,8 @@ class _DishDetailsWidgetState extends State<DishDetailsWidget>
                                                                         print(
                                                                             data);
 
-                                                                            _makePostRequest(data);
+                                                                        _makePostRequest(
+                                                                            data);
                                                                       },
                                                                       child:
                                                                           Container(

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 
 const bookPrimary = Color(0xffF94638);
+const bookPrimaryDark = Color(0xFF800A00);
 const bookDark = Color(0xffffffff);
 const bookDark2 = Color(0xff8E8E8E);
 const bookBlack = Color(0xff000000);
@@ -13,7 +14,8 @@ const bodyText1 = Color(0xffffffff);
 const bodyText2 = Color(0xffffffff);
 const clay = Color(0xffa499b3);
 
-const hostNamePROD = "http://92.112.194.239:7575/";
+//const hostName = "http://92.112.194.239:7575/";
+//const hostNameMedia = "http://92.112.194.239:7575";
 const hostName = "http://192.168.43.121:8000/";
 const hostNameMedia = "http://192.168.43.121:8000";
 

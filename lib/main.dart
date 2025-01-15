@@ -60,8 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return FutureBuilder(
         future: _user_api,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          //return SplashScreenFirst();
-          return api_key == null ? SplashScreenFirst() : HomePageWidget();
+          //return DishDetails2Widget();
+         return api_key == null ? SplashScreenFirst() : HomePageWidget();
           //return VerifyEmail(email: 'BK-KOB8C2_AP',);
           //return BookingPaymentPage(amount: '200',);
         });
