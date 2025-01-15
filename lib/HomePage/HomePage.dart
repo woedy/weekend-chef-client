@@ -325,7 +325,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                             ],
                           ),
                         ),
-           /*              const Padding(
+                        /*              const Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               5.0, 0.0, 5.0, 0.0),
                           child: Icon(
@@ -506,15 +506,18 @@ class _HomePageWidgetState extends State<HomePageWidget>
                           alignment: AlignmentDirectional(0, 1),
                           child: Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                                EdgeInsetsDirectional.fromSTEB(5, 0, 5, 10),
                             child: Text(
                               categories[index].name.toString(),
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                color: Colors.white,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              textAlign: TextAlign.center,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .copyWith(
+                                    fontFamily: 'Inter',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                             ),
                           ),
                         ),
