@@ -21,26 +21,14 @@ class DishDetailModel {
 
 class Data {
   Dish? dish;
-  List<ClosestChef>? closestChef;
   List<RelatedFoods>? relatedFoods;
   List<Custom>? custom;
   List<Ingredients>? ingredients;
 
-  Data(
-      {this.dish,
-      this.closestChef,
-      this.relatedFoods,
-      this.custom,
-      this.ingredients});
+  Data({this.dish, this.relatedFoods, this.custom, this.ingredients});
 
   Data.fromJson(Map<String, dynamic> json) {
     dish = json['dish'] != null ? new Dish.fromJson(json['dish']) : null;
-    if (json['closest_chef'] != null) {
-      closestChef = <ClosestChef>[];
-      json['closest_chef'].forEach((v) {
-        closestChef!.add(new ClosestChef.fromJson(v));
-      });
-    }
     if (json['related_foods'] != null) {
       relatedFoods = <RelatedFoods>[];
       json['related_foods'].forEach((v) {
@@ -66,9 +54,6 @@ class Data {
     if (this.dish != null) {
       data['dish'] = this.dish!.toJson();
     }
-    if (this.closestChef != null) {
-      data['closest_chef'] = this.closestChef!.map((v) => v.toJson()).toList();
-    }
     if (this.relatedFoods != null) {
       data['related_foods'] =
           this.relatedFoods!.map((v) => v.toJson()).toList();
@@ -87,50 +72,57 @@ class Dish {
   String? dishId;
   String? name;
   String? description;
-  String? basePrice;
+  String? smallPrice;
+  String? smallValue;
+  String? mediumPrice;
+  String? mediumValue;
+  String? largePrice;
+  String? largeValue;
   String? coverPhoto;
   String? categoryName;
   int? quantity;
-  String? value;
   bool? customizable;
-  List<DishGallery>? dishGallery;
   List<Ingredients>? ingredients;
+  List<String>? parentCategoryNames;
 
   Dish(
       {this.dishId,
       this.name,
       this.description,
-      this.basePrice,
+      this.smallPrice,
+      this.smallValue,
+      this.mediumPrice,
+      this.mediumValue,
+      this.largePrice,
+      this.largeValue,
       this.coverPhoto,
       this.categoryName,
       this.quantity,
-      this.value,
       this.customizable,
-      this.dishGallery,
-      this.ingredients});
+      this.ingredients,
+      this.parentCategoryNames});
 
   Dish.fromJson(Map<String, dynamic> json) {
     dishId = json['dish_id'];
     name = json['name'];
     description = json['description'];
-    basePrice = json['base_price'];
+    smallPrice = json['small_price'];
+    smallValue = json['small_value'];
+    mediumPrice = json['medium_price'];
+    mediumValue = json['medium_value'];
+    largePrice = json['large_price'];
+    largeValue = json['large_value'];
     coverPhoto = json['cover_photo'];
     categoryName = json['category_name'];
     quantity = json['quantity'];
-    value = json['value'];
     customizable = json['customizable'];
-    if (json['dish_gallery'] != null) {
-      dishGallery = <DishGallery>[];
-      json['dish_gallery'].forEach((v) {
-        dishGallery!.add(new DishGallery.fromJson(v));
-      });
-    }
     if (json['ingredients'] != null) {
       ingredients = <Ingredients>[];
       json['ingredients'].forEach((v) {
         ingredients!.add(new Ingredients.fromJson(v));
       });
     }
+    parentCategoryNames = json['parent_category_names'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -138,40 +130,20 @@ class Dish {
     data['dish_id'] = this.dishId;
     data['name'] = this.name;
     data['description'] = this.description;
-    data['base_price'] = this.basePrice;
+    data['small_price'] = this.smallPrice;
+    data['small_value'] = this.smallValue;
+    data['medium_price'] = this.mediumPrice;
+    data['medium_value'] = this.mediumValue;
+    data['large_price'] = this.largePrice;
+    data['large_value'] = this.largeValue;
     data['cover_photo'] = this.coverPhoto;
     data['category_name'] = this.categoryName;
     data['quantity'] = this.quantity;
-    data['value'] = this.value;
     data['customizable'] = this.customizable;
-    if (this.dishGallery != null) {
-      data['dish_gallery'] = this.dishGallery!.map((v) => v.toJson()).toList();
-    }
     if (this.ingredients != null) {
       data['ingredients'] = this.ingredients!.map((v) => v.toJson()).toList();
     }
-    return data;
-  }
-}
-
-class DishGallery {
-  String? dishGalleryId;
-  String? caption;
-  String? photo;
-
-  DishGallery({this.dishGalleryId, this.caption, this.photo});
-
-  DishGallery.fromJson(Map<String, dynamic> json) {
-    dishGalleryId = json['dish_gallery_id'];
-    caption = json['caption'];
-    photo = json['photo'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['dish_gallery_id'] = this.dishGalleryId;
-    data['caption'] = this.caption;
-    data['photo'] = this.photo;
+    data['parent_category_names'] = this.parentCategoryNames;
     return data;
   }
 }
@@ -198,80 +170,29 @@ class Ingredients {
   }
 }
 
-class ClosestChef {
-  User? user;
-  String? chefId;
-  String? kitchenLocation;
-
-  ClosestChef({this.user, this.chefId, this.kitchenLocation});
-
-  ClosestChef.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    chefId = json['chef_id'];
-    kitchenLocation = json['kitchen_location'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    data['chef_id'] = this.chefId;
-    data['kitchen_location'] = this.kitchenLocation;
-    return data;
-  }
-}
-
-class User {
-  String? userId;
-  String? email;
-  String? firstName;
-  String? lastName;
-  String? phone;
-  String? photo;
-
-  User(
-      {this.userId,
-      this.email,
-      this.firstName,
-      this.lastName,
-      this.phone,
-      this.photo});
-
-  User.fromJson(Map<String, dynamic> json) {
-    userId = json['user_id'];
-    email = json['email'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    phone = json['phone'];
-    photo = json['photo'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['user_id'] = this.userId;
-    data['email'] = this.email;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['phone'] = this.phone;
-    data['photo'] = this.photo;
-    return data;
-  }
-}
-
 class RelatedFoods {
   String? dishId;
   String? name;
   String? coverPhoto;
   String? description;
+  String? smallPrice;
+  String? categoryName;
 
-  RelatedFoods({this.dishId, this.name, this.coverPhoto, this.description});
+  RelatedFoods(
+      {this.dishId,
+      this.name,
+      this.coverPhoto,
+      this.description,
+      this.smallPrice,
+      this.categoryName});
 
   RelatedFoods.fromJson(Map<String, dynamic> json) {
     dishId = json['dish_id'];
     name = json['name'];
     coverPhoto = json['cover_photo'];
     description = json['description'];
+    smallPrice = json['small_price'];
+    categoryName = json['category_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -280,6 +201,8 @@ class RelatedFoods {
     data['name'] = this.name;
     data['cover_photo'] = this.coverPhoto;
     data['description'] = this.description;
+    data['small_price'] = this.smallPrice;
+    data['category_name'] = this.categoryName;
     return data;
   }
 }
@@ -289,14 +212,14 @@ class Custom {
   String? name;
   String? photo;
   String? price;
-  int quantity;  // Local quantity to manage for customization
+  int quantity; // Local quantity to manage for customization
 
   Custom({
     this.customOptionId,
     this.name,
     this.photo,
     this.price,
-    this.quantity = 0,  // Default to 0 if quantity isn't provided
+    this.quantity = 0, // Default to 0 if quantity isn't provided
   });
 
   Custom.fromJson(Map<String, dynamic> json) : quantity = 0 {
@@ -313,7 +236,8 @@ class Custom {
     data['name'] = this.name;
     data['photo'] = this.photo;
     data['price'] = this.price;
-    data['quantity'] = this.quantity;  // Include the local quantity when sending data back
+    data['quantity'] =
+        this.quantity; // Include the local quantity when sending data back
     return data;
   }
 }

@@ -9,6 +9,8 @@ import 'package:weekend_chef_client/HomePage/dish_details.dart';
 import 'package:weekend_chef_client/HomePage/dish_map_view.dart';
 import 'package:weekend_chef_client/HomePage/models/home_data_model.dart';
 import 'package:weekend_chef_client/NewUIs/categories.dart';
+import 'package:weekend_chef_client/NewUIs/custom_navbar.dart';
+import 'package:weekend_chef_client/NewUIs/sub_categories.dart';
 import 'package:weekend_chef_client/Orders/my_orders.dart';
 import 'package:weekend_chef_client/SplashScreen/spalsh_screen.dart';
 import 'package:weekend_chef_client/constants.dart';
@@ -90,88 +92,93 @@ class _HomePageWidgetState extends State<HomePageWidget>
 
   FutureBuilder<HomeDataModel> buildFutureBuilder() {
     return FutureBuilder<HomeDataModel>(
-        future: _futureHomeData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingDialogBox(
-              text: 'Please Wait..',
-            );
-          } else if (snapshot.hasData) {
-            var data = snapshot.data!;
+      future: _futureHomeData,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingDialogBox(
+            text: 'Please Wait..',
+          );
+        } else if (snapshot.hasData) {
+          var data = snapshot.data!;
+          var userData = data.data!.userData;
+          var categories = data.data!.dishCategories!;
+          var notificationCount = data.data!.notificationCount!;
+          var cartItemCount = data.data!.cartItemCount!;
+          var popular = data.data!.popular!;
 
-            var userData = data.data!.userData;
-            var categories = data.data!.dishCategories!;
-            var notification_count = data.data!.notificationCount!;
-            var cart_item_count = data.data!.cartItemCount!;
-            var popular = data.data!.popular!;
-
-            if (data.message == "Successful") {
-              return GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                  FocusManager.instance.primaryFocus?.unfocus();
-                },
-                child: Container(
-                  color: bookPrimary,
-                  child: SafeArea(
-                    top: true,
-                    child: Scaffold(
-                      key: scaffoldKey,
-                      backgroundColor: Colors.white,
-                      body: Stack(
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                appBarSection(context, userData,
-                                    cart_item_count, notification_count),
-                                Expanded(
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      shape: BoxShape.rectangle,
-                                    ),
-                                    child: ListView(
-                                      padding: EdgeInsets.zero,
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      children: [
-                                        categoriesSection(context, categories),
-                                        exploreSection(context),
-                                        popularSection(context, popular),
-                                      ],
-                                    ),
+          if (data.message == "Successful") {
+            return GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Container(
+                color: bookPrimary,
+                child: SafeArea(
+                  top: true,
+                  child: Scaffold(
+                    key: scaffoldKey,
+                    backgroundColor: Colors.white,
+                    body: Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              appBarSection(
+                                context,
+                                userData,
+                                cartItemCount,
+                                notificationCount,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  child: ListView(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    children: [
+                                      categoriesSection(context, categories),
+                                      exploreSection(context),
+                                      popularSection(context, popular),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          customNavBar(context)
-                        ],
-                      ),
+                        ),
+                        // Dynamically pass pages to the customNavBar
+                        customNavBar(context)
+                      ],
                     ),
                   ),
                 ),
+              ),
+            );
+          } else {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const SplashScreen()),
               );
-            } else {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const SplashScreen()));
-              });
-            }
+            });
           }
+        }
 
-          return const LoadingDialogBox(
-            text: 'Please Wait.!!!.',
-          );
-        });
+        return const LoadingDialogBox(
+          text: 'Please Wait.!!!.',
+        );
+      },
+    );
   }
 
   Column appBarSection(
@@ -487,41 +494,54 @@ class _HomePageWidgetState extends State<HomePageWidget>
                         topRight: Radius.circular(10),
                       ),
                     ),
-                    child: Stack(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Color(0x4F000000),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(10),
-                              bottomRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SubCategoriesWidget(
+                                      category_id:
+                                          categories[index].id.toString(),
+                                      category_name:
+                                          categories[index].name.toString(),
+                                    )));
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Color(0x4F000000),
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              ),
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: AlignmentDirectional(0, 1),
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(5, 0, 5, 10),
-                            child: Text(
-                              categories[index].name.toString(),
-                              textAlign: TextAlign.center,
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .copyWith(
-                                    fontFamily: 'Inter',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                          Align(
+                            alignment: AlignmentDirectional(0, 1),
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(5, 0, 5, 10),
+                              child: Text(
+                                categories[index].name.toString(),
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .copyWith(
+                                      fontFamily: 'Inter',
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -838,7 +858,7 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      popular[index].value.toString(),
+                                      popular[index].smallValue.toString(),
                                       style: TextStyle(
                                         fontFamily: 'Inter',
                                         fontSize: 13,
@@ -850,7 +870,10 @@ class _HomePageWidgetState extends State<HomePageWidget>
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 15, 0),
                                       child: Text(
-                                        'Ghc ' + popular[index].basePrice,
+                                        'Ghc ' +
+                                            popular[index]
+                                                .smallPrice!
+                                                .toString(),
                                         style: TextStyle(
                                           fontFamily: 'Inter',
                                           color: Color(0xFF00BD1C),
@@ -1032,4 +1055,9 @@ class _HomePageWidgetState extends State<HomePageWidget>
       ),
     );
   }
+
+
+
+
+
 }

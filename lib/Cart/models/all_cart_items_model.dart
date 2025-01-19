@@ -1,116 +1,134 @@
-import 'dart:convert';
-
 class AllCartItemsModel {
-  final String message;
-  final CartData data;
+  String? message;
+  Data? data;
 
-  AllCartItemsModel({required this.message, required this.data});
+  AllCartItemsModel({this.message, this.data});
 
-  factory AllCartItemsModel.fromJson(Map<String, dynamic> json) {
-    return AllCartItemsModel(
-      message: json['message'],
-      data: CartData.fromJson(json['data']),
-    );
+  AllCartItemsModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
   }
 }
 
-class CartData {
-  final List<Cart> carts;
-  final Pagination pagination;
+class Data {
+  List<CartItems>? cartItems;
+  Pagination? pagination;
 
-  CartData({required this.carts, required this.pagination});
+  Data({this.cartItems, this.pagination});
 
-  factory CartData.fromJson(Map<String, dynamic> json) {
-    var list = json['carts'] as List;
-    List<Cart> cartList = list.map((i) => Cart.fromJson(i)).toList();
+  Data.fromJson(Map<String, dynamic> json) {
+    // Handle cart_items being null
+    if (json['cart_items'] != null) {
+      cartItems = <CartItems>[];
+      json['cart_items'].forEach((v) {
+        cartItems!.add(CartItems.fromJson(v));
+      });
+    } else {
+      cartItems = []; // If cart_items is null, set it to an empty list
+    }
 
-    return CartData(
-      carts: cartList,
-      pagination: Pagination.fromJson(json['pagination']),
-    );
+    // Handle pagination being null
+    pagination = json['pagination'] != null
+        ? Pagination.fromJson(json['pagination'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (cartItems != null) {
+      data['cart_items'] = cartItems!.map((v) => v.toJson()).toList();
+    }
+    if (pagination != null) {
+      data['pagination'] = pagination!.toJson();
+    }
+    return data;
   }
 }
 
-class Cart {
-  final int cartId;
-  final String createdAt;
-  final List<CartItem> cartItems;
+class CartItems {
+  int? id;
+  String? dishName;
+  String? dishCoverPhoto;
+  int? quantity;
+  String? category;
+  double? itemTotalPrice; // Change type from int? to double?
+  bool? isCustom;
+  List<String>? parentCategoryNames;
 
-  Cart({
-    required this.cartId,
-    required this.createdAt,
-    required this.cartItems,
+  CartItems({
+    this.id,
+    this.dishName,
+    this.dishCoverPhoto,
+    this.quantity,
+    this.category,
+    this.itemTotalPrice, // Change type here as well
+    this.isCustom,
+    this.parentCategoryNames,
   });
 
-  factory Cart.fromJson(Map<String, dynamic> json) {
-    var list = json['cart_items'] as List;
-    List<CartItem> cartItemsList = list.map((i) => CartItem.fromJson(i)).toList();
+  CartItems.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    dishName = json['dish_name'];
+    dishCoverPhoto = json['dish_cover_photo'];
+    quantity = json['quantity'];
+    category = json['category'];
+    
+    // Parse the itemTotalPrice as a double
+    itemTotalPrice = json['item_total_price'] is int
+        ? (json['item_total_price'] as int).toDouble() // Convert int to double if needed
+        : json['item_total_price'].toDouble(); // Ensure it's a double
 
-    return Cart(
-      cartId: json['cart_id'],
-      createdAt: json['created_at'],
-      cartItems: cartItemsList,
-    );
+    isCustom = json['is_custom'];
+    parentCategoryNames = List<String>.from(json['parent_category_names']);
   }
-}
 
-class CartItem {
-  final int id;
-  final String dishName;
-  final String dishCoverPhoto;
-  final int quantity;
-  final String value;
-  final String chefName;
-  final String? chefLocation; // Can be null
-  final String chefPhoto;
-  final double totalPrice;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['dish_name'] = dishName;
+    data['dish_cover_photo'] = dishCoverPhoto;
+    data['quantity'] = quantity;
+    data['category'] = category;
+    
+    // Ensure itemTotalPrice is a double when serializing
+    data['item_total_price'] = itemTotalPrice;
 
-  CartItem({
-    required this.id,
-    required this.dishName,
-    required this.dishCoverPhoto,
-    required this.quantity,
-    required this.value,
-    required this.chefName,
-    this.chefLocation,
-    required this.chefPhoto,
-    required this.totalPrice,
-  });
-
-  factory CartItem.fromJson(Map<String, dynamic> json) {
-    return CartItem(
-      id: json['id'],
-      dishName: json['dish_name'],
-      dishCoverPhoto: json['dish_cover_photo'],
-      quantity: json['quantity'],
-      value: json['value'],
-      chefName: json['chef_name'],
-      chefLocation: json['chef_location'],
-      chefPhoto: json['chef_photo'],
-      totalPrice: json['total_price'],
-    );
+    data['is_custom'] = isCustom;
+    data['parent_category_names'] = parentCategoryNames;
+    return data;
   }
 }
 
 class Pagination {
-  final int pageNumber;
-  final int totalPages;
-  final String? next;
-  final String? previous;
+  int? pageNumber;
+  int? totalPages;
+  int? next;
+  int? previous;
 
-  Pagination({
-    required this.pageNumber,
-    required this.totalPages,
-    this.next,
-    this.previous,
-  });
+  Pagination({this.pageNumber, this.totalPages, this.next, this.previous});
 
-  factory Pagination.fromJson(Map<String, dynamic> json) {
-    return Pagination(
-      pageNumber: json['page_number'],
-      totalPages: json['total_pages'],
-      next: json['next'],
-      previous: json['previous'],
-    );
+  Pagination.fromJson(Map<String, dynamic> json) {
+    pageNumber = json['page_number'];
+    totalPages = json['total_pages'];
+    next = json['next'];
+    previous = json['previous'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['page_number'] = pageNumber;
+    data['total_pages'] = totalPages;
+    data['next'] = next;
+    data['previous'] = previous;
+    return data;
   }
 }

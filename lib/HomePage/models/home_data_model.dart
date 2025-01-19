@@ -122,8 +122,8 @@ class Popular {
   String? dishId;
   String? name;
   String? coverPhoto;
-  String? basePrice;
-  String? value;
+  String? smallPrice;
+  String? smallValue;
   bool? customizable;
   String? description;
 
@@ -131,8 +131,8 @@ class Popular {
       {this.dishId,
       this.name,
       this.coverPhoto,
-      this.basePrice,
-      this.value,
+      this.smallPrice,
+      this.smallValue,
       this.customizable,
       this.description});
 
@@ -140,8 +140,8 @@ class Popular {
     dishId = json['dish_id'];
     name = json['name'];
     coverPhoto = json['cover_photo'];
-    basePrice = json['base_price'];
-    value = json['value'];
+    smallPrice = json['small_price'];
+    smallValue = json['small_value'];
     customizable = json['customizable'];
     description = json['description'];
   }
@@ -151,8 +151,8 @@ class Popular {
     data['dish_id'] = this.dishId;
     data['name'] = this.name;
     data['cover_photo'] = this.coverPhoto;
-    data['base_price'] = this.basePrice;
-    data['value'] = this.value;
+    data['small_price'] = this.smallPrice;
+    data['small_value'] = this.smallValue;
     data['customizable'] = this.customizable;
     data['description'] = this.description;
     return data;

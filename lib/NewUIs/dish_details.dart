@@ -804,5 +804,12 @@ class _DishDetails2WidgetState extends State<DishDetails2Widget>
         ),
       ),
     );
+ 
+ 
+ 
+ 
+ 
+ 
+ 
   }
 }
