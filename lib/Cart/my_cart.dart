@@ -5,12 +5,9 @@ import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:weekend_chef_client/Cart/models/all_cart_items_model.dart';
-import 'package:weekend_chef_client/ClientProfile/client_profile.dart';
-import 'package:weekend_chef_client/NewUIs/cart_detail_edit.dart';
-import 'package:weekend_chef_client/NewUIs/models/categories_model.dart';
-import 'package:weekend_chef_client/NewUIs/select_chef.dart';
-import 'package:weekend_chef_client/NewUIs/sub_categories.dart';
-import 'package:weekend_chef_client/Orders/my_orders.dart';
+import 'package:weekend_chef_client/Cart/cart_detail_edit.dart';
+import 'package:weekend_chef_client/Cart/select_chef.dart';
+import 'package:weekend_chef_client/NewUIs/select_my_location.dart';
 import 'package:weekend_chef_client/constants.dart';
 import 'package:weekend_chef_client/utils/custom_ui.dart';
 
@@ -297,44 +294,48 @@ class _MyCartWidgetState extends State<MyCartWidget>
                 ),
               ],
             ),
-            Positioned(
-              bottom: 10,
-              left: 0,
-              right: 0,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const SelectChefWidget()));
-                },
-                child: Container(
-                  // Removed Row and kept only Container
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF94638),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.circular(
-                          5), // Changed to make it rounded on both sides
-                    ),
-                  ),
-                  child: Align(
-                    alignment: Alignment.center, // Center alignment for child
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 5), // Simplified padding
-                      child: Text(
-                        'Proceed to Select Chef',
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          color: Colors.white,
-                          fontSize: 13,
-                          letterSpacing: 0.0,
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 20),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional(0, 1),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const MyLocationWidget()));
+                      },
+                      child: Container(
+                        width: 344,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFF94638),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(0),
+                            topLeft: Radius.circular(0),
+                            topRight: Radius.circular(10),
+                          ),
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Text(
+                            'Select your location',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              color: Colors.white,
+                              fontSize: 12,
+                              letterSpacing: 0.0,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
           ],

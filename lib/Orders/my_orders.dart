@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weekend_chef_client/Cart/cart_details.dart';
 import 'package:weekend_chef_client/Orders/order_cart_details.dart';
 import 'package:weekend_chef_client/utils/custom_ui.dart';
 

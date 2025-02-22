@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:weekend_chef_client/ClientProfile/client_profile.dart';
-import 'package:weekend_chef_client/NewUIs/dishes.dart';
-import 'package:weekend_chef_client/NewUIs/models/categories_model.dart';
-import 'package:weekend_chef_client/NewUIs/sub_categories.dart';
+import 'package:weekend_chef_client/Dish/dishes.dart';
+import 'package:weekend_chef_client/Categories/models/categories_model.dart';
+import 'package:weekend_chef_client/Categories/sub_categories.dart';
 import 'package:weekend_chef_client/Orders/my_orders.dart';
 import 'package:weekend_chef_client/constants.dart';
 import 'package:weekend_chef_client/utils/custom_ui.dart';

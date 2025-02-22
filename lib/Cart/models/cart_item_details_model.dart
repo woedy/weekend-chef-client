@@ -31,7 +31,7 @@ class Data {
   int? quantity;
   String? specialNotes;
   List<Customizations>? customizations;
-  int? totalPrice;
+  double? totalPrice;
 
   Data(
       {this.id,
